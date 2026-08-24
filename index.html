@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>D2 SERVIÇOS</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--border:#334155;--primary:#4f46e5;--green:#16a34a;--yellow:#eab308}
 *{box-sizing:border-box} body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;margin:0;padding-bottom:90px}
@@ -30,14 +31,14 @@
 <div class="card"><div style="color:#94a3b8;font-size:12px">FATURAMENTO</div><div id="statFat" class="stat">R$ 0,00</div></div>
 <div class="card"><div style="color:#94a3b8;font-size:12px">ABERTAS</div><div id="statAbertas" class="stat" style="color:var(--yellow)">0</div></div>
 </div>
-<div class="card"><h3>📅 Agenda</h3><div id="agendaHoje">Carregando...</div></div>
-<div class="card"><h3>🚨 OS Abertas</h3><div id="listaDash">Carregando...</div></div>
+<div class="card"><h3>📅 Agenda Hoje</h3><div id="agendaHoje"></div></div>
+<div class="card"><h3>🚨 OS Abertas</h3><div id="listaDash"></div></div>
 </div>
-  <div id="aba-clientes" class="aba">
+<div id="aba-clientes" class="aba">
 <div class="card">
-<h3>👤 Novo Cliente</h3>
+<h3>👤 Cliente</h3>
 <input id="cNome" class="input" placeholder="Nome / Empresa">
-<input id="cFone" class="input" placeholder="WhatsApp (com DDD)">
+<input id="cFone" class="input" placeholder="WhatsApp com DDD">
 <input id="cEnd" class="input" placeholder="Endereço">
 <input id="cObs" class="input" placeholder="Obs">
 <button id="btnSalvarCliente" class="btn" style="background:var(--primary);color:white">SALVAR CLIENTE</button>
@@ -71,7 +72,7 @@
 </div>
 <div id="listaAgenda"></div>
 </div>
- <div id="aba-fin" class="aba">
+<div id="aba-fin" class="aba">
 <div class="card"><h3>💰 Financeiro</h3>
 <select id="finTipo" class="input"><option value="entrada">💚 ENTRADA</option><option value="saida">❤️ SAÍDA</option></select>
 <input id="finDesc" class="input" placeholder="Descrição"><input id="finValor" type="number" class="input" placeholder="Valor">
@@ -93,36 +94,85 @@ const firebaseConfig = { apiKey: "AIzaSyAsVGIZfJxaCqFk4KJEU0I4_R5_-MBdVoo", auth
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const $ = id => document.getElementById(id);
-let clientes=[], listaOS=[], listaAgenda=[], editandoId=null;
+let clientes=[], listaOS=[], listaAgenda=[], editandoOS=null, editandoCliente=null;
+
 $('btnEntrar').onclick=()=>{ if($('loginUser').value==='admin'&&$('loginSenha').value==='1234') $('telaLogin').style.display='none'; else $('erroLogin').textContent='Erro'; }
 window.mostrarAba=(id)=>{ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); $(id).classList.add('ativa'); $('btn-'+id.replace('aba-','')).classList.add('on'); }
+
 onSnapshot(collection(db,"clientes"), snap=>{ clientes=[]; snap.forEach(d=>clientes.push({id:d.id,...d.data()})); atualizar() });
 onSnapshot(collection(db,"os"), snap=>{ listaOS=[]; snap.forEach(d=>listaOS.push({id:d.id,...d.data()})); atualizar() });
 onSnapshot(collection(db,"agenda"), snap=>{ listaAgenda=[]; snap.forEach(d=>listaAgenda.push({id:d.id,...d.data()})); atualizar() });
-$('btnSalvarCliente').onclick=async()=>{ if(!$('cNome').value) return alert('Nome'); await addDoc(collection(db,"clientes"),{nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value}); $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value=''; }
-$('btnSalvarOS').onclick=async()=>{ if(!$('osCliente').value) return alert('Cliente'); const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value}; if(editandoId){ await updateDoc(doc(db,"os",editandoId),dados); editandoId=null; $('btnSalvarOS').textContent='💾 SALVAR OS'; } else { await addDoc(collection(db,"os"),dados); } alert('Salvo!'); }
+
+$('btnSalvarCliente').onclick=async()=>{ 
+  if(!$('cNome').value) return alert('Nome');
+  const dados={nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value};
+  if(editandoCliente){ await updateDoc(doc(db,"clientes",editandoCliente),dados); editandoCliente=null; $('btnSalvarCliente').textContent='SALVAR CLIENTE'; }
+  else { await addDoc(collection(db,"clientes"),dados); }
+  $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value='';
+}
+$('btnSalvarOS').onclick=async()=>{ 
+  if(!$('osCliente').value) return alert('Cliente'); 
+  const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value};
+  if(editandoOS){ await updateDoc(doc(db,"os",editandoOS),dados); editandoOS=null; $('btnSalvarOS').textContent='💾 SALVAR OS'; }
+  else { await addDoc(collection(db,"os"),dados); }
+  alert('Salvo!'); 
+}
 $('btnSalvarAgenda').onclick=async()=>{ await addDoc(collection(db,"agenda"),{cliente:$('agCliente').value,data:$('agData').value,hora:$('agHora').value,serv:$('agServ').value}); alert('Agendado!'); }
 $('btnSalvarFin').onclick=async()=>{ await addDoc(collection(db,"financeiro"),{tipo:$('finTipo').value,desc:$('finDesc').value,valor:parseFloat($('finValor').value)||0}); alert('Lançado!'); }
-window.excluirOS=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,"os",id)); }
-window.editarOS=(id)=>{ const o=listaOS.find(x=>x.id===id); $('osCliente').value=o.cliente; $('osServico').value=o.servico; $('osValor').value=o.valor; $('osData').value=o.data; $('osHora').value=o.hora||''; $('osDesc').value=o.desc; $('osStatus').value=o.status; $('osPagamento').value=o.pag; editandoId=id; $('btnSalvarOS').textContent='✏️ ATUALIZAR'; mostrarAba('aba-os'); }
-window.imprimirOS=(id)=>{ const o=listaOS.find(x=>x.id===id); const w=window.open('','','width=800,height=600'); w.document.write(`<html><body style="font-family:Arial;padding:20px"><h1>D2 SERVIÇOS - ORDEM DE SERVIÇO</h1><hr><p><b>Cliente:</b> ${o.cliente}</p><p><b>Serviço:</b> ${o.servico}</p><p><b>Valor:</b> R$ ${o.valor}</p><p><b>Data:</b> ${o.data} ${o.hora||''}</p><p><b>Status:</b> ${o.status} | ${o.pag}</p><p><b>Descrição:</b><br>${o.desc}</p><hr><p>Assinatura: ______________________</p><button onclick="window.print()">IMPRIMIR</button></body></html>`); }
-window.whatsOS=(id)=>{ const o=listaOS.find(x=>x.id===id); const cli=clientes.find(c=>c.nome===o.cliente); const fone=cli?cli.fone.replace(/\D/g,''):''; const msg=`*D2 SERVIÇOS*%0A👤 ${o.cliente}%0A🔧 ${o.servico}%0A💰 R$ ${o.valor}%0A📅 ${o.data}%0A📝 ${o.desc}`; window.open(fone?`https://wa.me/55${fone}?text=${msg}`:`https://wa.me/?text=${msg}`,'_blank'); }
+
+// CLIENTES
+window.excluirCliente=async(id)=>{ if(confirm('Excluir cliente?')) await deleteDoc(doc(db,"clientes",id)); }
+window.editarCliente=(id)=>{ const c=clientes.find(x=>x.id===id); $('cNome').value=c.nome; $('cFone').value=c.fone; $('cEnd').value=c.end; $('cObs').value=c.obs; editandoCliente=id; $('btnSalvarCliente').textContent='✏️ ATUALIZAR CLIENTE'; mostrarAba('aba-clientes'); window.scrollTo(0,0); }
+
+// OS
+window.excluirOS=async(id)=>{ if(confirm('Excluir OS?')) await deleteDoc(doc(db,"os",id)); }
+window.editarOS=(id)=>{ const o=listaOS.find(x=>x.id===id); $('osCliente').value=o.cliente; $('osServico').value=o.servico; $('osValor').value=o.valor; $('osData').value=o.data; $('osHora').value=o.hora||''; $('osDesc').value=o.desc; $('osStatus').value=o.status; $('osPagamento').value=o.pag; editandoOS=id; $('btnSalvarOS').textContent='✏️ ATUALIZAR OS'; mostrarAba('aba-os'); }
+
+// PDF + WHATSAPP
+window.pdfZapOS=(id)=>{
+  const o=listaOS.find(x=>x.id===id);
+  const { jsPDF } = window.jspdf;
+  const docPDF = new jsPDF();
+  docPDF.setFontSize(18); docPDF.text("D2 SERVICOS - ORDEM DE SERVICO",10,15);
+  docPDF.setFontSize(12);
+  docPDF.text(`Cliente: ${o.cliente}`,10,30);
+  docPDF.text(`Servico: ${o.servico}`,10,40);
+  docPDF.text(`Valor: R$ ${o.valor}`,10,50);
+  docPDF.text(`Data: ${o.data} ${o.hora||''}`,10,60);
+  docPDF.text(`Status: ${o.status} | Pagamento: ${o.pag}`,10,70);
+  docPDF.text("Descricao:",10,80);
+  const linhas = docPDF.splitTextToSize(o.desc||'',180);
+  docPDF.text(linhas,10,90);
+  docPDF.text("___________________________________",10,150);
+  docPDF.text("Assinatura do Cliente",10,160);
+  const nomeArq = `OS_${o.cliente}_${o.data}.pdf`;
+  docPDF.save(nomeArq);
+  
+  // Abre WhatsApp logo depois
+  setTimeout(()=>{
+    const cli=clientes.find(c=>c.nome===o.cliente);
+    const fone=cli?cli.fone.replace(/\D/g,''):''; 
+    const msg=`*D2 SERVICOS - OS em PDF*%0A👤 ${o.cliente}%0A🔧 ${o.servico}%0A💰 R$ ${o.valor}%0A📅 ${o.data}%0A%0A_PDF baixado: ${nomeArq} - Anexe aqui no WhatsApp_`;
+    const url=fone?`https://wa.me/55${fone}?text=${msg}`:`https://wa.me/?text=${msg}`;
+    window.open(url,'_blank');
+  },800);
+}
 
 function atualizar(){
   let html='<option value="">Selecione Cliente</option>'; clientes.forEach(c=>html+=`<option value="${c.nome}">${c.nome}</option>`);
   $('osCliente').innerHTML=html; $('agCliente').innerHTML=html;
-  $('listaClientes').innerHTML=clientes.map(c=>`<div class="card">${c.nome}<br><small>${c.fone}</small></div>`).join('')||'<div class="card">Nenhum cliente</div>';
-  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} | ${o.status}<br><small>${o.data} ${o.hora||''}</small><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-top:8px"><button onclick="imprimirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#334155;color:white">🖨️</button><button onclick="whatsOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#25D366;color:white">📱</button><button onclick="editarOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join('')||'<div class="card">Nenhuma OS</div>';
-  
-  // AQUI QUE CORRIGE O SEU PRINT
+
+  $('listaClientes').innerHTML=clientes.map(c=>`<div class="card"><b>${c.nome}</b><br><small>📱 ${c.fone} | ${c.end||''}</small><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px"><button onclick="editarCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️ Editar</button><button onclick="excluirCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️ Excluir</button></div></div>`).join('')||'<div class="card">Nenhum cliente</div>';
+
+  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} | ${o.status}<br><small>${o.data} ${o.hora||''}</small><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-top:8px"><button onclick="pdfZapOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#25D366;color:white;font-weight:bold">📄 PDF+Zap</button><button onclick="editarOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️</button><button onclick="window.open('https://wa.me/?text=OS ${o.cliente}','_blank')" style="padding:8px;border-radius:8px;border:none;background:#334155;color:white">📱</button></div></div>`).join('')||'<div class="card">Nenhuma OS</div>';
+
   $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente}</div>`).join('')||'<div class="card">Nenhum agendamento</div>';
-  $('agendaHoje').innerHTML=listaAgenda.length?listaAgenda.map(a=>`<div>📅 ${a.data} ${a.hora} - ${a.cliente}</div>`).join(''):'<div>Nenhum agendamento hoje</div>';
-  $('listaDash').innerHTML=listaOS.filter(o=>o.status==='aberto').length?listaOS.filter(o=>o.status==='aberto').map(o=>`<div>🚨 ${o.cliente} - ${o.servico} - R$ ${o.valor}</div>`).join(''):'<div>Tudo em dia!</div>';
-  
+  $('agendaHoje').innerHTML=listaAgenda.length?listaAgenda.map(a=>`<div>📅 ${a.data} ${a.hora} - ${a.cliente}</div>`).join(''):'Nenhum agendamento hoje';
+  $('listaDash').innerHTML=listaOS.filter(o=>o.status==='aberto').length?listaOS.filter(o=>o.status==='aberto').map(o=>`<div>🚨 ${o.cliente} - ${o.servico} R$ ${o.valor}</div>`).join(''):'Tudo em dia!';
   $('statAbertas').textContent=listaOS.filter(o=>o.status==='aberto').length;
   $('statFat').textContent='R$ '+listaOS.reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
 }
-$('buscaCliente').addEventListener('input', e=>{ let f=e.target.value.toLowerCase(); $('listaClientes').innerHTML=clientes.filter(c=>c.nome.toLowerCase().includes(f)).map(c=>`<div class="card">${c.nome}<br><small>${c.fone}</small></div>`).join(''); });
+$('buscaCliente').addEventListener('input', e=>{ let f=e.target.value.toLowerCase(); $('listaClientes').innerHTML=clientes.filter(c=>c.nome.toLowerCase().includes(f)).map(c=>`<div class="card"><b>${c.nome}</b><br><small>${c.fone}</small><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px"><button onclick="editarCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️ Editar</button><button onclick="excluirCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️ Excluir</button></div></div>`).join(''); });
 </script>
 </body>
 </html>
