@@ -71,7 +71,7 @@
 </div>
 <div id="listaAgenda"></div>
 </div>
-  <div id="aba-fin" class="aba">
+ <div id="aba-fin" class="aba">
 <div class="card"><h3>💰 Financeiro</h3>
 <select id="finTipo" class="input"><option value="entrada">💚 ENTRADA</option><option value="saida">❤️ SAÍDA</option></select>
 <input id="finDesc" class="input" placeholder="Descrição"><input id="finValor" type="number" class="input" placeholder="Valor">
@@ -100,27 +100,27 @@ onSnapshot(collection(db,"clientes"), snap=>{ clientes=[]; snap.forEach(d=>clien
 onSnapshot(collection(db,"os"), snap=>{ listaOS=[]; snap.forEach(d=>listaOS.push({id:d.id,...d.data()})); atualizar() });
 onSnapshot(collection(db,"agenda"), snap=>{ listaAgenda=[]; snap.forEach(d=>listaAgenda.push({id:d.id,...d.data()})); atualizar() });
 $('btnSalvarCliente').onclick=async()=>{ if(!$('cNome').value) return alert('Nome'); await addDoc(collection(db,"clientes"),{nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value}); $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value=''; }
-$('btnSalvarOS').onclick=async()=>{ 
-  if(!$('osCliente').value) return alert('Cliente'); 
-  const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value};
-  if(editandoId){ await updateDoc(doc(db,"os",editandoId),dados); editandoId=null; $('btnSalvarOS').textContent='💾 SALVAR OS'; }
-  else { await addDoc(collection(db,"os"),dados); }
-  alert('Salvo!'); 
-}
+$('btnSalvarOS').onclick=async()=>{ if(!$('osCliente').value) return alert('Cliente'); const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value}; if(editandoId){ await updateDoc(doc(db,"os",editandoId),dados); editandoId=null; $('btnSalvarOS').textContent='💾 SALVAR OS'; } else { await addDoc(collection(db,"os"),dados); } alert('Salvo!'); }
 $('btnSalvarAgenda').onclick=async()=>{ await addDoc(collection(db,"agenda"),{cliente:$('agCliente').value,data:$('agData').value,hora:$('agHora').value,serv:$('agServ').value}); alert('Agendado!'); }
 $('btnSalvarFin').onclick=async()=>{ await addDoc(collection(db,"financeiro"),{tipo:$('finTipo').value,desc:$('finDesc').value,valor:parseFloat($('finValor').value)||0}); alert('Lançado!'); }
-window.excluirOS=async(id)=>{ if(confirm('Excluir essa OS?')){ await deleteDoc(doc(db,"os",id)); } }
-window.editarOS=(id)=>{ const o=listaOS.find(x=>x.id===id); $('osCliente').value=o.cliente; $('osServico').value=o.servico; $('osValor').value=o.valor; $('osData').value=o.data; $('osHora').value=o.hora||''; $('osDesc').value=o.desc; $('osStatus').value=o.status; $('osPagamento').value=o.pag; editandoId=id; $('btnSalvarOS').textContent='✏️ ATUALIZAR OS'; mostrarAba('aba-os'); }
-window.imprimirOS=(id)=>{ const o=listaOS.find(x=>x.id===id); const win=window.open('','','width=800,height=600'); win.document.write(`<html><body style="font-family:Arial;padding:20px"><h1>D2 SERVIÇOS</h1><hr><p><b>Cliente:</b> ${o.cliente}</p><p><b>Serviço:</b> ${o.servico}</p><p><b>Valor:</b> R$ ${o.valor}</p><p><b>Data:</b> ${o.data} ${o.hora||''}</p><p><b>Status:</b> ${o.status} | <b>Pag:</b> ${o.pag}</p><p><b>Descrição:</b><br>${o.desc}</p><hr><p>Ass: ___________________________</p><button onclick="window.print()">IMPRIMIR</button></body></html>`); }
-window.whatsOS=(id)=>{ const o=listaOS.find(x=>x.id===id); const cli=clientes.find(c=>c.nome===o.cliente); const fone=cli?cli.fone.replace(/\D/g,''):''; const msg=`*D2 SERVIÇOS - OS*%0A👤 ${o.cliente}%0A🔧 ${o.servico}%0A💰 R$ ${o.valor}%0A📅 ${o.data} ${o.hora||''}%0A📝 ${o.desc}`; const url=fone?`https://wa.me/55${fone}?text=${msg}`:`https://wa.me/?text=${msg}`; window.open(url,'_blank'); }
+window.excluirOS=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,"os",id)); }
+window.editarOS=(id)=>{ const o=listaOS.find(x=>x.id===id); $('osCliente').value=o.cliente; $('osServico').value=o.servico; $('osValor').value=o.valor; $('osData').value=o.data; $('osHora').value=o.hora||''; $('osDesc').value=o.desc; $('osStatus').value=o.status; $('osPagamento').value=o.pag; editandoId=id; $('btnSalvarOS').textContent='✏️ ATUALIZAR'; mostrarAba('aba-os'); }
+window.imprimirOS=(id)=>{ const o=listaOS.find(x=>x.id===id); const w=window.open('','','width=800,height=600'); w.document.write(`<html><body style="font-family:Arial;padding:20px"><h1>D2 SERVIÇOS - ORDEM DE SERVIÇO</h1><hr><p><b>Cliente:</b> ${o.cliente}</p><p><b>Serviço:</b> ${o.servico}</p><p><b>Valor:</b> R$ ${o.valor}</p><p><b>Data:</b> ${o.data} ${o.hora||''}</p><p><b>Status:</b> ${o.status} | ${o.pag}</p><p><b>Descrição:</b><br>${o.desc}</p><hr><p>Assinatura: ______________________</p><button onclick="window.print()">IMPRIMIR</button></body></html>`); }
+window.whatsOS=(id)=>{ const o=listaOS.find(x=>x.id===id); const cli=clientes.find(c=>c.nome===o.cliente); const fone=cli?cli.fone.replace(/\D/g,''):''; const msg=`*D2 SERVIÇOS*%0A👤 ${o.cliente}%0A🔧 ${o.servico}%0A💰 R$ ${o.valor}%0A📅 ${o.data}%0A📝 ${o.desc}`; window.open(fone?`https://wa.me/55${fone}?text=${msg}`:`https://wa.me/?text=${msg}`,'_blank'); }
+
 function atualizar(){
   let html='<option value="">Selecione Cliente</option>'; clientes.forEach(c=>html+=`<option value="${c.nome}">${c.nome}</option>`);
   $('osCliente').innerHTML=html; $('agCliente').innerHTML=html;
-  $('listaClientes').innerHTML=clientes.map(c=>`<div class="card">${c.nome}<br><small>${c.fone}</small></div>`).join('');
-  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} | ${o.status}<br><small>${o.data} ${o.hora||''}</small><br><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-top:8px"><button onclick="imprimirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#334155;color:white">🖨️</button><button onclick="whatsOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#25D366;color:white">📱</button><button onclick="editarOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join('')||'<div class="card">Nenhuma OS</div>';
-  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente}</div>`).join('');
+  $('listaClientes').innerHTML=clientes.map(c=>`<div class="card">${c.nome}<br><small>${c.fone}</small></div>`).join('')||'<div class="card">Nenhum cliente</div>';
+  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} | ${o.status}<br><small>${o.data} ${o.hora||''}</small><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-top:8px"><button onclick="imprimirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#334155;color:white">🖨️</button><button onclick="whatsOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#25D366;color:white">📱</button><button onclick="editarOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join('')||'<div class="card">Nenhuma OS</div>';
+  
+  // AQUI QUE CORRIGE O SEU PRINT
+  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente}</div>`).join('')||'<div class="card">Nenhum agendamento</div>';
+  $('agendaHoje').innerHTML=listaAgenda.length?listaAgenda.map(a=>`<div>📅 ${a.data} ${a.hora} - ${a.cliente}</div>`).join(''):'<div>Nenhum agendamento hoje</div>';
+  $('listaDash').innerHTML=listaOS.filter(o=>o.status==='aberto').length?listaOS.filter(o=>o.status==='aberto').map(o=>`<div>🚨 ${o.cliente} - ${o.servico} - R$ ${o.valor}</div>`).join(''):'<div>Tudo em dia!</div>';
+  
   $('statAbertas').textContent=listaOS.filter(o=>o.status==='aberto').length;
-  $('statFat').textContent='R$ '+listaOS.reduce((s,o)=>s+o.valor,0).toFixed(2);
+  $('statFat').textContent='R$ '+listaOS.reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
 }
 $('buscaCliente').addEventListener('input', e=>{ let f=e.target.value.toLowerCase(); $('listaClientes').innerHTML=clientes.filter(c=>c.nome.toLowerCase().includes(f)).map(c=>`<div class="card">${c.nome}<br><small>${c.fone}</small></div>`).join(''); });
 </script>
