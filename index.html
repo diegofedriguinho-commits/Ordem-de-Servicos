@@ -3,110 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>D2 SERVIÇOS - COMPLETO</title>
+<title>D2 SERVIÇOS</title>
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--border:#334155;--primary:#4f46e5;--green:#16a34a;--red:#dc2626;--yellow:#eab308}
-*{box-sizing:border-box} 
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;margin:0;padding-bottom:90px}
-.btn{padding:14px;border-radius:12px;font-weight:bold;border:none;cursor:pointer;width:100%;min-height:52px}
+:root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--border:#334155;--primary:#4f46e5;--green:#16a34a;--yellow:#eab308}
+*{box-sizing:border-box} body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;margin:0;padding-bottom:90px}
+.btn{padding:14px;border-radius:12px;font-weight:bold;border:none;cursor:pointer;width:100%}
 .input{padding:14px;border:1px solid var(--border);border-radius:10px;width:100%;background:var(--card);color:var(--text);margin-bottom:8px}
 .card{background:var(--card);padding:14px;border-radius:12px;border:1px solid var(--border);margin-bottom:10px}
 .aba{display:none}.ativa{display:block}
 .menu{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);z-index:20}
-.menu button{background:transparent;border:none;color:var(--text);padding:8px 2px;font-size:9px;font-weight:bold;display:flex;flex-direction:column;align-items:center;gap:2px}
+.menu button{background:transparent;border:none;color:var(--text);padding:8px 2px;font-size:9px;font-weight:bold;display:flex;flex-direction:column;align-items:center}
 .menu button.on{background:var(--primary);color:white}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{font-size:24px;font-weight:bold}
-#assinatura{border:2px dashed #334155;border-radius:10px;width:100%;height:150px;background:white;touch-action:none}
+.stat{font-size:22px;font-weight:bold}
 </style>
 </head>
 <body>
 <div id="telaLogin" style="position:fixed;inset:0;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px">
 <div class="card" style="width:100%;max-width:380px"><h2 style="text-align:center">🛠️ D2 SERVIÇOS</h2>
-<input id="loginUser" class="input" placeholder="Login">
-<input id="loginSenha" type="password" class="input" placeholder="Senha">
+<input id="loginUser" class="input" placeholder="Login"><input id="loginSenha" type="password" class="input" placeholder="Senha">
 <button id="btnEntrar" class="btn" style="background:var(--primary);color:white">ENTRAR</button>
-<p id="erroLogin" style="color:red;text-align:center"></p>
-<div style="font-size:10px;text-align:center;color:#64748b">admin / 1234</div></div></div>
+<p id="erroLogin" style="color:red;text-align:center"></p><div style="font-size:10px;text-align:center;color:#64748b">admin / 1234</div></div></div>
 
 <div style="padding:10px">
 <div id="aba-dash" class="aba ativa">
 <div class="grid2">
-<div class="card"><div style="color:#94a3b8;font-size:12px">FATURAMENTO MÊS</div><div id="statFat" class="stat">R$ 0,00</div></div>
-<div class="card"><div style="color:#94a3b8;font-size:12px">OS ABERTAS</div><div id="statAbertas" class="stat" style="color:var(--yellow)">0</div></div>
-<div class="card"><div style="color:#94a3b8;font-size:12px">CONCLUÍDAS</div><div id="statConc" class="stat" style="color:var(--green)">0</div></div>
-<div class="card"><div style="color:#94a3b8;font-size:12px">A RECEBER</div><div id="statReceber" class="stat">R$ 0,00</div></div>
+<div class="card"><div style="color:#94a3b8;font-size:12px">FATURAMENTO</div><div id="statFat" class="stat">R$ 0,00</div></div>
+<div class="card"><div style="color:#94a3b8;font-size:12px">ABERTAS</div><div id="statAbertas" class="stat" style="color:var(--yellow)">0</div></div>
 </div>
-<div class="card"><h3>📅 Agenda Hoje</h3><div id="agendaHoje">Nenhum agendamento</div></div>
-<div class="card"><h3>🚨 OS Abertas</h3><div id="listaDash">Nenhuma OS</div></div>
+<div class="card"><h3>📅 Agenda</h3><div id="agendaHoje">Carregando...</div></div>
+<div class="card"><h3>🚨 OS Abertas</h3><div id="listaDash">Carregando...</div></div>
+</div>
 <div id="aba-clientes" class="aba">
 <div class="card">
 <h3>👤 Novo Cliente</h3>
-<input type="hidden" id="cId">
 <input id="cNome" class="input" placeholder="Nome / Empresa">
-<input id="cFone" class="input" placeholder="WhatsApp (11) 9xxxx">
-<input id="cEnd" class="input" placeholder="Endereço completo">
-<input id="cObs" class="input" placeholder="Observação">
-<button onclick="salvarCliente()" class="btn" style="background:var(--primary);color:white">SALVAR CLIENTE</button>
+<input id="cFone" class="input" placeholder="WhatsApp">
+<input id="cEnd" class="input" placeholder="Endereço">
+<input id="cObs" class="input" placeholder="Obs">
+<button id="btnSalvarCliente" class="btn" style="background:var(--primary);color:white">SALVAR CLIENTE</button>
 </div>
-<input id="buscaCliente" class="input" placeholder="🔍 Buscar cliente...">
+<input id="buscaCliente" class="input" placeholder="🔍 Buscar...">
 <div id="listaClientes"></div>
 </div>
 
 <div id="aba-os" class="aba">
 <div class="card">
 <h3>📝 Nova OS</h3>
-<input type="hidden" id="osId">
-<select id="osCliente" class="input"><option value="">Selecione o Cliente</option></select>
-<input id="osServico" class="input" placeholder="Serviço (ex: Instalação ar)">
-<div class="grid2">
-<input id="osValor" type="number" class="input" placeholder="Valor R$">
-<input id="osData" type="date" class="input">
-</div>
+<select id="osCliente" class="input"><option>Carregando clientes...</option></select>
+<input id="osServico" class="input" placeholder="Serviço">
+<div class="grid2"><input id="osValor" type="number" class="input" placeholder="Valor R$"><input id="osData" type="date" class="input"></div>
 <input id="osHora" type="time" class="input">
-<textarea id="osDesc" class="input" placeholder="Descrição detalhada..."></textarea>
-<select id="osStatus" class="input">
-<option value="aberto">🟡 ABERTO</option>
-<option value="andamento">🔵 EM ANDAMENTO</option>
-<option value="concluido">🟢 CONCLUÍDO</option>
-<option value="cancelado">🔴 CANCELADO</option>
-</select>
-<select id="osPagamento" class="input">
-<option value="pendente">💰 PENDENTE</option>
-<option value="pago">✅ PAGO</option>
-<option value="parcial">⚠️ PARCIAL</option>
-</select>
-<h4>Assinatura do Cliente</h4>
-<canvas id="assinatura"></canvas>
-<button onclick="limparAss()" class="btn" style="background:#334155;color:white;margin:8px 0">Limpar Assinatura</button>
-<button onclick="salvarOS()" class="btn" style="background:var(--green);color:white">💾 SALVAR OS</button>
-<button onclick="gerarPDF()" class="btn" style="background:#0ea5e9;color:white;margin-top:8px">📄 GERAR PDF / WHATSAPP</button>
+<textarea id="osDesc" class="input" placeholder="Descrição detalhada"></textarea>
+<select id="osStatus" class="input"><option value="aberto">🟡 ABERTO</option><option value="andamento">🔵 ANDAMENTO</option><option value="concluido">🟢 CONCLUÍDO</option></select>
+<select id="osPagamento" class="input"><option value="pendente">💰 PENDENTE</option><option value="pago">✅ PAGO</option></select>
+<button id="btnSalvarOS" class="btn" style="background:var(--green);color:white">💾 SALVAR OS</button>
 </div>
 <div id="listaOS"></div>
 </div>
 
 <div id="aba-agenda" class="aba">
 <div class="card">
-<h3>📅 Novo Agendamento</h3>
-<select id="agCliente" class="input"><option value="">Selecione o Cliente</option></select>
-<input id="agData" type="date" class="input">
-<input id="agHora" type="time" class="input">
-<input id="agServ" class="input" placeholder="Serviço a fazer">
-<button onclick="salvarAgenda()" class="btn" style="background:var(--primary);color:white">AGENDAR</button>
+<h3>📅 Agendamento</h3>
+<select id="agCliente" class="input"><option>Carregando...</option></select>
+<input id="agData" type="date" class="input"><input id="agHora" type="time" class="input">
+<input id="agServ" class="input" placeholder="Serviço">
+<button id="btnSalvarAgenda" class="btn" style="background:var(--primary);color:white">AGENDAR</button>
 </div>
 <div id="listaAgenda"></div>
 </div>
 <div id="aba-fin" class="aba">
 <div class="card">
-<h3>💰 Lançamento Financeiro</h3>
+<h3>💰 Financeiro</h3>
 <select id="finTipo" class="input"><option value="entrada">💚 ENTRADA</option><option value="saida">❤️ SAÍDA</option></select>
-<select id="finCliente" class="input"><option value="">Selecione</option></select>
-<input id="finDesc" class="input" placeholder="Descrição">
-<input id="finValor" type="number" class="input" placeholder="Valor R$">
-<input id="finData" type="date" class="input">
-<button onclick="salvarFin()" class="btn" style="background:var(--green);color:white">LANÇAR</button>
+<input id="finDesc" class="input" placeholder="Descrição"><input id="finValor" type="number" class="input" placeholder="Valor">
+<button id="btnSalvarFin" class="btn" style="background:var(--green);color:white">LANÇAR</button>
 </div>
-<div class="card"><h3>Resumo</h3><div id="resumoFin">R$ 0,00</div></div>
 <div id="listaFin"></div>
 </div>
 </div>
@@ -118,132 +90,36 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;ma
 <button id="btn-agenda" onclick="mostrarAba('aba-agenda')">📅<span>AGENDA</span></button>
 <button id="btn-fin" onclick="mostrarAba('aba-fin')">💰<span>FIN</span></button>
 </nav>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAsVGIZfJxaCqFk4KJEU0I4_R5_-MBdVoo",
-  authDomain: "servicos-cd9e2.firebaseapp.com",
-  projectId: "servicos-cd9e2",
-  storageBucket: "servicos-cd9e2.firebasestorage.app",
-  messagingSenderId: "45086093375",
-  appId: "1:45086093375:web:641ffeb22aca5fd0f2888a"
-};
-
+import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const firebaseConfig = { apiKey: "AIzaSyAsVGIZfJxaCqFk4KJEU0I4_R5_-MBdVoo", authDomain: "servicos-cd9e2.firebaseapp.com", projectId: "servicos-cd9e2", storageBucket: "servicos-cd9e2.firebasestorage.app", messagingSenderId: "45086093375", appId: "1:45086093375:web:641ffeb22aca5fd0f2888a" };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const $ = id => document.getElementById(id);
-let clientes = [];
-let listaOS = [];
-let listaAgenda = [];
-let listaFin = [];
-
-// LOGIN
-$('btnEntrar').onclick = () => {
-  if($('loginUser').value==='admin' && $('loginSenha').value==='1234'){
-    $('telaLogin').style.display='none';
-  } else { $('erroLogin').textContent='Login inválido'; }
+let clientes=[], listaOS=[], listaAgenda=[];
+$('btnEntrar').onclick=()=>{ if($('loginUser').value==='admin'&&$('loginSenha').value==='1234') $('telaLogin').style.display='none'; else $('erroLogin').textContent='Erro'; }
+window.mostrarAba=(id)=>{ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); $(id).classList.add('ativa'); $('btn-'+id.replace('aba-','')).classList.add('on'); }
+onSnapshot(collection(db,"clientes"), snap=>{ clientes=[]; snap.forEach(d=>clientes.push({id:d.id,...d.data()})); atualizar() });
+onSnapshot(collection(db,"os"), snap=>{ listaOS=[]; snap.forEach(d=>listaOS.push({id:d.id,...d.data()})); atualizar() });
+onSnapshot(collection(db,"agenda"), snap=>{ listaAgenda=[]; snap.forEach(d=>listaAgenda.push({id:d.id,...d.data()})); atualizar() });
+$('btnSalvarCliente').onclick=async()=>{ if(!$('cNome').value) return alert('Nome'); await addDoc(collection(db,"clientes"),{nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value}); $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value=''; }
+$('btnSalvarOS').onclick=async()=>{ if(!$('osCliente').value) return alert('Cliente'); await addDoc(collection(db,"os"),{cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,status:$('osStatus').value,pag:$('osPagamento').value,desc:$('osDesc').value}); alert('OS Salva!'); }
+$('btnSalvarAgenda').onclick=async()=>{ await addDoc(collection(db,"agenda"),{cliente:$('agCliente').value,data:$('agData').value,hora:$('agHora').value,serv:$('agServ').value}); alert('Agendado!'); }
+$('btnSalvarFin').onclick=async()=>{ await addDoc(collection(db,"financeiro"),{tipo:$('finTipo').value,desc:$('finDesc').value,valor:parseFloat($('finValor').value)||0}); alert('Lançado!'); }
+function atualizar(){
+  let html='<option value="">Selecione Cliente</option>'; clientes.forEach(c=>html+=`<option value="${c.nome}">${c.nome}</option>`);
+  $('osCliente').innerHTML=html; $('agCliente').innerHTML=html;
+  $('listaClientes').innerHTML=clientes.map(c=>`<div class="card">${c.nome}<br><small>${c.fone}</small></div>`).join('');
+  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card">${o.cliente} - ${o.servico} R$${o.valor}</div>`).join('');
+  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente}</div>`).join('');
+  $('statAbertas').textContent=listaOS.filter(o=>o.status==='aberto').length;
+  $('statFat').textContent='R$ '+listaOS.reduce((s,o)=>s+o.valor,0).toFixed(2);
+  $('listaDash').innerHTML=listaOS.filter(o=>o.status==='aberto').map(o=>`<div>${o.cliente} - ${o.servico}</div>`).join('')||'Nenhuma';
+  $('agendaHoje').innerHTML=listaAgenda.map(a=>`<div>${a.hora} - ${a.cliente}</div>`).join('')||'Nenhum';
 }
-
-window.mostrarAba = (id) => {
-  document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa'));
-  document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on'));
-  $(id).classList.add('ativa');
-  $('btn-'+id.replace('aba-','')).classList.add('on');
-}
-
-// OUVIR CLIENTES EM TEMPO REAL - ISSO RESOLVE SEU BUG DA BUSCA
-onSnapshot(collection(db, "clientes"), (snap) => {
-  clientes = [];
-  snap.forEach(d => clientes.push({id: d.id, ...d.data()}));
-  atualizarTudo();
-});
-
-onSnapshot(collection(db, "os"), (snap) => {
-  listaOS = [];
-  snap.forEach(d => listaOS.push({id: d.id, ...d.data()}));
-  atualizarTudo();
-});
-
-onSnapshot(collection(db, "agenda"), (snap) => {
-  listaAgenda = [];
-  snap.forEach(d => listaAgenda.push({id: d.id, ...d.data()}));
-  atualizarTudo();
-});
-
-window.salvarCliente = async () => {
-  if(!$('cNome').value){alert('Digite o nome');return;}
-  await addDoc(collection(db, "clientes"), {
-    nome: $('cNome').value,
-    fone: $('cFone').value,
-    end: $('cEnd').value,
-    obs: $('cObs').value,
-    criado: Date.now()
-  });
-  $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value='';
-}
-
-window.salvarOS = async () => {
-  if(!$('osCliente').value){alert('Escolha o cliente');return;}
-  await addDoc(collection(db, "os"), {
-    cliente: $('osCliente').value,
-    servico: $('osServico').value,
-    valor: parseFloat($('osValor').value)||0,
-    data: $('osData').value,
-    status: $('osStatus').value,
-    pag: $('osPagamento').value,
-    desc: $('osDesc').value,
-    criado: Date.now()
-  });
-  alert('OS salva na nuvem!');
-}
-
-window.salvarAgenda = async () => {
-  await addDoc(collection(db, "agenda"), {
-    cliente: $('agCliente').value,
-    data: $('agData').value,
-    hora: $('agHora').value,
-    serv: $('agServ').value
-  });
-  alert('Agendado!');
-}
-
-window.salvarFin = async () => {
-  await addDoc(collection(db, "financeiro"), {
-    tipo: $('finTipo').value,
-    cliente: $('finCliente').value,
-    desc: $('finDesc').value,
-    valor: parseFloat($('finValor').value)||0,
-    data: $('finData').value
-  });
-  alert('Lançado!');
-}
-
-function atualizarSelects(){
-  let html='<option value="">Selecione o Cliente</option>';
-  clientes.forEach(c=>{html+=`<option value="${c.nome}">${c.nome}</option>`});
-  $('osCliente').innerHTML=html; $('agCliente').innerHTML=html; $('finCliente').innerHTML=html;
-}
-
-function atualizarTudo(){
-  atualizarSelects();
-  renderClientes($('buscaCliente').value||'');
-  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b><br>${o.servico} - R$ ${o.valor}<br><small>${o.status} | ${o.pag}</small></div>`).join('');
-  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente}<br>${a.serv}</div>`).join('');
-}
-
-function renderClientes(filtro=''){
-  let div=$('listaClientes'); if(!div) return;
-  div.innerHTML='';
-  clientes.filter(c=>c.nome.toLowerCase().includes(filtro.toLowerCase())||c.fone.includes(filtro)).forEach(c=>{
-    div.innerHTML+=`<div class="card">${c.nome}<br><small>${c.fone} - ${c.end}</small></div>`;
-  });
-}
-
-$('buscaCliente').addEventListener('input', e=>{renderClientes(e.target.value);});
-window.limparAss = () => { let c=$('assinatura'); c.getContext('2d').clearRect(0,0,c.width,c.height); }
-window.gerarPDF = () => { alert('PDF em breve'); }
-
+$('buscaCliente').addEventListener('input', e=>{ let f=e.target.value.toLowerCase(); $('listaClientes').innerHTML=clientes.filter(c=>c.nome.toLowerCase().includes(f)).map(c=>`<div class="card">${c.nome}<br><small>${c.fone}</small></div>`).join(''); });
 </script>
+</body>
+</html>
