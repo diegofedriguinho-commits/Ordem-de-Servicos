@@ -7,8 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--border:#334155;--primary:#4f46e5;--green:#16a34a;--yellow:#eab308;--red:#dc2626;--blue:#3b82f6}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;margin:0;padding-bottom:100px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent} body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;margin:0;padding-bottom:100px}
 .btn{padding:16px;border-radius:12px;font-weight:bold;border:none;cursor:pointer;width:100%;font-size:15px}
 .input{padding:16px;border:1px solid var(--border);border-radius:12px;width:100%;background:var(--card);color:var(--text);margin-bottom:10px;font-size:16px}
 .card{background:var(--card);padding:14px;border-radius:14px;border:1px solid var(--border);margin-bottom:10px}
@@ -17,6 +16,7 @@ body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;ma
 .menu button{background:transparent;border:none;color:var(--text);padding:10px 1px;font-size:8px;font-weight:bold;display:flex;flex-direction:column;align-items:center}
 .menu button.on{background:var(--primary);color:white;border-radius:10px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .stat{font-size:20px;font-weight:bold}
 .label{color:#94a3b8;font-size:11px}
 .logo-top{display:flex;justify-content:space-between;align-items:center;padding:12px 10px 5px 10px;font-weight:900}
@@ -35,7 +35,7 @@ canvas{border:2px dashed #4f46e5;border-radius:12px;background:white;touch-actio
 <div class="card" style="width:100%;max-width:380px"><div style="text-align:center;font-weight:900;font-size:22px"><span class="logo-d2">D2</span>SERVIÇOS</div>
 <input id="loginUser" class="input" placeholder="Login" style="margin-top:15px"><input id="loginSenha" type="password" class="input" placeholder="Senha">
 <button id="btnEntrar" class="btn" style="background:var(--primary);color:white">ENTRAR</button>
-<p id="erroLogin" style="color:red;text-align:center"></p><div style="font-size:10px;text-align:center;color:#64748b">admin / 1234</div></div></div>
+<p id="erroLogin" style="color:red;text-align:center"></p><div style="font-size:10px;text-align:center;color:#64748b">admin / 1234</div><div style="font-size:9px;text-align:center;color:#475569;margin-top:10px">Desenvolvido por D2 Systemas @2026</div></div></div>
 
 <div style="padding:10px">
 <div class="logo-top"><div><span class="logo-d2">D2</span>SERVIÇOS</div><button onclick="fazerLogoff()" style="background:#dc2626;color:white;border:none;padding:8px 14px;border-radius:8px;font-weight:bold;font-size:12px">🚪 SAIR</button></div>
@@ -43,62 +43,109 @@ canvas{border:2px dashed #4f46e5;border-radius:12px;background:white;touch-actio
 <div id="aba-dash" class="aba ativa">
 <div id="alertaContas"></div>
 <div class="grid2">
-<div class="card"><div class="label">FATURAMENTO MENSAL</div><div id="statFatMensal" class="stat" style="color:var(--green)">R$ 0,00</div><div id="statFatTotal" style="font-size:11px;color:#94a3b8"></div></div>
-<div class="card"><div class="label">💰 A RECEBER / A PAGAR</div><div id="statAReceber" class="stat" style="color:var(--yellow)">R$ 0,00</div><div id="statAPagar" class="stat" style="color:var(--red);font-size:16px">R$ 0,00</div></div>
+<div class="card"><div class="label">FATURAMENTO MENSAL</div><div id="statFatMensal" class="stat" style="color:var(--green)">R$ 0,00</div><div id="statFatTotal" style="font-size:11px;color:#94a3b8">Total: R$ 0,00</div></div>
+<div class="card"><div class="label">💰 A RECEBER</div><div id="statAReceber" class="stat" style="color:var(--yellow)">R$ 0,00</div><div class="label">A PAGAR</div><div id="statAPagar" class="stat" style="color:var(--red);font-size:16px">R$ 0,00</div></div>
 </div>
+<div class="grid2">
+<div class="card"><div class="label">🧾 PARCIAL</div><div id="statParcial" class="stat">R$ 0,00</div></div>
+<div class="card"><div class="label">💵 RECEBIDO</div><div id="statRecebido" class="stat" style="color:var(--green)">R$ 0,00</div></div>
+</div>
+<div class="grid3">
+<div class="card" style="text-align:center"><div class="label">ABERTAS</div><div id="statAbertas" class="stat" style="color:var(--yellow)">0</div></div>
+<div class="card" style="text-align:center"><div class="label">ANDAMENTO</div><div id="statAndamento" class="stat" style="color:var(--blue)">0</div></div>
+<div class="card" style="text-align:center"><div class="label">CONCLUÍDAS</div><div id="statConcluidas" class="stat" style="color:var(--green)">0</div></div>
+</div>
+<div class="card"><h3>📅 Agenda Hoje</h3><div id="agendaHoje"></div></div>
 <div class="card"><h3>🚨 OS Abertas</h3><div id="listaDash"></div></div>
 </div>
 
 <div id="aba-clientes" class="aba">
-<div class="card"><h3>👤 Cliente</h3><input id="cNome" class="input" placeholder="Nome"><input id="cFone" class="input" placeholder="WhatsApp"><input id="cEnd" class="input" placeholder="Endereço"><input id="cObs" class="input" placeholder="Obs"><button id="btnSalvarCliente" class="btn" style="background:var(--primary);color:white">SALVAR CLIENTE</button></div>
-<input id="buscaCliente" class="input" placeholder="🔍 Buscar cliente..."><div id="listaClientes"></div>
+<div class="card">
+<h3>👤 Cliente</h3>
+<input id="cNome" class="input" placeholder="Nome / Empresa">
+<input id="cFone" class="input" placeholder="WhatsApp com DDD">
+<input id="cEnd" class="input" placeholder="Endereço">
+<input id="cObs" class="input" placeholder="Obs">
+<button id="btnSalvarCliente" class="btn" style="background:var(--primary);color:white">SALVAR CLIENTE</button>
+</div>
+<input id="buscaCliente" class="input" placeholder="🔍 Buscar cliente...">
+<div id="listaClientes"></div>
 </div>
 
 <div id="aba-os" class="aba">
 <div class="card">
-<h3>📝 Nova OS com Foto + Assinatura</h3>
-<select id="osCliente" class="input"><option>Carregando...</option></select>
+<h3>📝 Nova OS - com Fotos e Assinatura</h3>
+<select id="osCliente" class="input"><option>Carregando clientes...</option></select>
 <input id="osServico" class="input" placeholder="Serviço">
 <div class="grid2"><input id="osValor" type="number" class="input" placeholder="Valor R$"><input id="osData" type="date" class="input"></div>
 <input id="osHora" type="time" class="input">
-<textarea id="osDesc" class="input" placeholder="Descrição"></textarea>
+<textarea id="osDesc" class="input" placeholder="Descrição detalhada"></textarea>
 
-<div style="background:#0f172a;padding:10px;border-radius:10px;margin-bottom:10px">
-<label style="font-size:12px">📸 FOTO ANTES</label>
+<div style="background:#0f172a;padding:10px;border-radius:10px;margin-bottom:10px;border:1px solid #334155">
+<label style="font-size:12px;font-weight:bold">📸 FOTO ANTES DO SERVIÇO</label>
 <input type="file" id="fotoAntes" accept="image/*" capture="environment" class="input">
 <img id="prevAntes" class="preview-img" style="display:none">
-<label style="font-size:12px;margin-top:10px;display:block">📸 FOTO DEPOIS</label>
+<label style="font-size:12px;font-weight:bold;margin-top:10px;display:block">📸 FOTO DEPOIS DO SERVIÇO</label>
 <input type="file" id="fotoDepois" accept="image/*" capture="environment" class="input">
 <img id="prevDepois" class="preview-img" style="display:none">
 </div>
 
-<div style="background:#0f172a;padding:10px;border-radius:10px;margin-bottom:10px">
-<label style="font-size:12px">✍️ ASSINATURA DO CLIENTE NA TELA</label>
+<div style="background:#0f172a;padding:10px;border-radius:10px;margin-bottom:10px;border:1px solid #334155">
+<label style="font-size:12px;font-weight:bold">✍️ ASSINATURA DO CLIENTE NA TELA</label>
 <canvas id="canvasAss" height="180"></canvas>
 <div class="grid2" style="margin-top:6px"><button type="button" onclick="limparAss()" class="btn" style="background:#334155;color:white;padding:10px">🧹 LIMPAR</button><button type="button" onclick="salvarAss()" class="btn" style="background:var(--yellow);color:black;padding:10px">✅ OK ASSINATURA</button></div>
 <img id="prevAss" class="preview-img" style="display:none;background:white;padding:10px">
 </div>
 
 <select id="osStatus" class="input"><option value="aberto">🟡 ABERTO</option><option value="andamento">🔵 ANDAMENTO</option><option value="concluido">🟢 CONCLUÍDO</option></select>
-<select id="osPagamento" class="input"><option value="pendente">💰 PENDENTE</option><option value="pago">✅ PAGO</option><option value="parcial">🧾 PARCIAL</option></select>
+<select id="osPagamento" class="input"><option value="pendente">💰 PENDENTE (A RECEBER)</option><option value="pago">✅ PAGO</option><option value="parcial">🧾 PARCIAL</option></select>
 <button id="btnSalvarOS" class="btn" style="background:var(--green);color:white">💾 SALVAR OS COM FOTOS</button>
 </div>
 <div id="listaOS"></div>
 </div>
 
-<div id="aba-agenda" class="aba"><div class="card"><h3>📅 Agendamento</h3><select id="agCliente" class="input"></select><input id="agData" type="date" class="input"><input id="agHora" type="time" class="input"><input id="agServ" class="input" placeholder="Serviço"><button id="btnSalvarAgenda" class="btn" style="background:var(--primary);color:white">AGENDAR</button></div><div id="listaAgenda"></div></div>
-
-<div id="aba-relatorio" class="aba">
-<div class="card"><h3>📄 Relatório</h3><select id="relCliente" class="input"><option value="">Todos</option></select><div class="grid2"><input id="relDataIni" type="date" class="input"><input id="relDataFim" type="date" class="input"></div><select id="relTipo" class="input"><option value="todos">Todos</option><option value="pago">Pagos</option><option value="pendente">A Receber</option></select><button id="btnGerarRel" class="btn" style="background:var(--primary);color:white">🔍 GERAR</button><button id="btnRelPdf" class="btn" style="background:#25D366;color:white;margin-top:8px">📄 PDF RELATÓRIO</button></div>
-<div class="grid2"><div class="card" style="text-align:center"><div class="label">TOTAL PAGO</div><div id="relTotalPago" class="stat" style="color:var(--green)">R$ 0,00</div></div><div class="card" style="text-align:center"><div class="label">TOTAL A RECEBER</div><div id="relTotalReceber" class="stat" style="color:var(--yellow)">R$ 0,00</div></div></div><div id="listaRelatorio"></div>
+<div id="aba-agenda" class="aba">
+<div class="card">
+<h3>📅 Agendamento</h3>
+<select id="agCliente" class="input"><option>Carregando...</option></select>
+<input id="agData" type="date" class="input"><input id="agHora" type="time" class="input">
+<input id="agServ" class="input" placeholder="Serviço">
+<button id="btnSalvarAgenda" class="btn" style="background:var(--primary);color:white">AGENDAR</button>
+</div>
+<div id="listaAgenda"></div>
 </div>
 
-<div id="aba-fin" class="aba"><div class="card"><h3>💰 Financeiro</h3><select id="finTipo" class="input"><option value="entrada">💚 ENTRADA</option><option value="saida">❤️ SAÍDA</option><option value="parcial">🧾 PARCIAL</option></select><input id="finDesc" class="input" placeholder="Descrição"><input id="finValor" type="number" class="input" placeholder="Valor"><input id="finData" type="date" class="input"><button id="btnSalvarFin" class="btn" style="background:var(--green);color:white">LANÇAR</button></div><div id="listaFin"></div></div>
+<div id="aba-relatorio" class="aba">
+<div class="card">
+<h3>📄 Relatório por Cliente e Data</h3>
+<select id="relCliente" class="input"><option value="">Todos os clientes</option></select>
+<div class="grid2">
+<input id="relDataIni" type="date" class="input">
+<input id="relDataFim" type="date" class="input">
+</div>
+<select id="relTipo" class="input"><option value="todos">Todos (Pagos e A Receber)</option><option value="pago">Apenas PAGOS</option><option value="pendente">Apenas A RECEBER</option><option value="parcial">Apenas PARCIAL</option></select>
+<button id="btnGerarRel" class="btn" style="background:var(--primary);color:white">🔍 GERAR RELATÓRIO</button>
+<button id="btnRelPdf" class="btn" style="background:#25D366;color:white;margin-top:8px">📄 GERAR PDF DO RELATÓRIO</button>
+</div>
+<div class="grid2">
+<div class="card" style="text-align:center"><div class="label">TOTAL PAGO NO PERÍODO</div><div id="relTotalPago" class="stat" style="color:var(--green)">R$ 0,00</div></div>
+<div class="card" style="text-align:center"><div class="label">TOTAL A RECEBER</div><div id="relTotalReceber" class="stat" style="color:var(--yellow)">R$ 0,00</div></div>
+</div>
+<div id="listaRelatorio"></div>
+</div>
+
+<div id="aba-fin" class="aba">
+<div class="card"><h3>💰 Financeiro - Contas a Pagar com Vencimento</h3>
+<select id="finTipo" class="input"><option value="entrada">💚 ENTRADA</option><option value="saida">❤️ SAÍDA (A PAGAR)</option><option value="parcial">🧾 PARCIAL</option></select>
+<input id="finDesc" class="input" placeholder="Descrição (Ex: Aluguel, Conta Luz)"><input id="finValor" type="number" class="input" placeholder="Valor"><input id="finData" type="date" class="input">
+<button id="btnSalvarFin" class="btn" style="background:var(--green);color:white">LANÇAR MANUAL</button>
+<div style="font-size:10px;color:#94a3b8;margin-top:6px">Para contas a pagar, coloque a data de vencimento. O sistema avisa 3 dias antes.</div>
+</div><div id="listaFin"></div></div>
 </div>
 
 <nav class="menu">
 <button id="btn-dash" class="on" onclick="mostrarAba('aba-dash')">📊<span>DASH</span></button>
-<button id="btn-clientes" onclick="mostrarAba('aba-clientes')">👥<span>CLI</span></button>
+<button id="btn-clientes" onclick="mostrarAba('aba-clientes')">👥<span>CLIENTES</span></button>
 <button id="btn-os" onclick="mostrarAba('aba-os')">📝<span>OS</span></button>
 <button id="btn-agenda" onclick="mostrarAba('aba-agenda')">📅<span>AGENDA</span></button>
 <button id="btn-fin" onclick="mostrarAba('aba-fin')">💰<span>FIN</span></button>
@@ -115,15 +162,14 @@ const $ = id => document.getElementById(id);
 let clientes=[], listaOS=[], listaAgenda=[], listaFin=[], editandoOS=null, editandoCliente=null, relatorioFiltrado=[];
 let fotoAntesBase64="", fotoDepoisBase64="", assinaturaBase64="";
 
-// LOGIN / LOGOFF
 $('btnEntrar').onclick=()=>{ if($('loginUser').value==='admin'&&$('loginSenha').value==='1234'){$('telaLogin').style.display='none';} else $('erroLogin').textContent='Erro'; }
-window.fazerLogoff=()=>{ if(confirm('Sair?')){$('telaLogin').style.display='flex';} }
+window.fazerLogoff=()=>{ if(confirm('Deseja sair?')) $('telaLogin').style.display='flex'; }
 window.mostrarAba=(id)=>{ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); $(id).classList.add('ativa'); const btn=$('btn-'+id.replace('aba-','')); if(btn) btn.classList.add('on'); }
 
-// CANVAS ASSINATURA - CELULAR
+// CANVAS ASSINATURA
 const canvas = $('canvasAss'); const ctx = canvas.getContext('2d');
 function resizeCanvas(){ const rect = canvas.getBoundingClientRect(); canvas.width = rect.width * 2; canvas.height = 180 * 2; ctx.scale(2,2); ctx.strokeStyle='#000'; ctx.lineWidth=2; ctx.lineCap='round'; }
-resizeCanvas();
+setTimeout(resizeCanvas,300);
 let desenhando=false;
 function getPos(e){ const rect=canvas.getBoundingClientRect(); const touch = e.touches?e.touches[0]:e; return {x:touch.clientX-rect.left, y:touch.clientY-rect.top}; }
 canvas.addEventListener('touchstart', e=>{ desenhando=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); e.preventDefault(); });
@@ -135,12 +181,10 @@ canvas.addEventListener('mouseup', ()=>desenhando=false);
 window.limparAss=()=>{ ctx.clearRect(0,0,canvas.width,canvas.height); assinaturaBase64=""; $('prevAss').style.display='none'; }
 window.salvarAss=()=>{ assinaturaBase64 = canvas.toDataURL('image/png'); $('prevAss').src=assinaturaBase64; $('prevAss').style.display='block'; alert('Assinatura salva!'); }
 
-// FOTOS
 function fileToBase64(file, cb){ const reader=new FileReader(); reader.onload=e=>cb(e.target.result); reader.readAsDataURL(file); }
 $('fotoAntes').addEventListener('change', e=>{ if(e.target.files[0]) fileToBase64(e.target.files[0], b64=>{ fotoAntesBase64=b64; $('prevAntes').src=b64; $('prevAntes').style.display='block'; }); });
 $('fotoDepois').addEventListener('change', e=>{ if(e.target.files[0]) fileToBase64(e.target.files[0], b64=>{ fotoDepoisBase64=b64; $('prevDepois').src=b64; $('prevDepois').style.display='block'; }); });
 
-// FIREBASE
 onSnapshot(collection(db,"clientes"), snap=>{ clientes=[]; snap.forEach(d=>clientes.push({id:d.id,...d.data()})); atualizar() });
 onSnapshot(collection(db,"os"), snap=>{ listaOS=[]; snap.forEach(d=>listaOS.push({id:d.id,...d.data()})); atualizar() });
 onSnapshot(collection(db,"agenda"), snap=>{ listaAgenda=[]; snap.forEach(d=>listaAgenda.push({id:d.id,...d.data()})); atualizar() });
@@ -151,51 +195,68 @@ async function lancarFinanceiroAutomatico(osId, cliente, servico, valor, tipoPag
   if(tipoPag==='pago'){ await addDoc(collection(db,"financeiro"),{tipo:"entrada", desc:`OS PAGA - ${cliente} - ${servico}`, valor:valor, data:new Date().toISOString().split('T')[0], osId:osId, cliente:cliente}); }
   else if(tipoPag==='parcial'){ await addDoc(collection(db,"financeiro"),{tipo:"parcial", desc:`OS PARCIAL - ${cliente} - ${servico}`, valor:valor, data:new Date().toISOString().split('T')[0], osId:osId, cliente:cliente}); }
 }
-$('btnSalvarCliente').onclick=async()=>{ if(!$('cNome').value) return alert('Nome'); const dados={nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value}; if(editandoCliente){ await updateDoc(doc(db,"clientes",editandoCliente),dados); editandoCliente=null; } else { await addDoc(collection(db,"clientes"),dados); } $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value=''; }
-$('btnSalvarOS').onclick=async()=>{ if(!$('osCliente').value) return alert('Cliente'); const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value, fotoAntes:fotoAntesBase64, fotoDepois:fotoDepoisBase64, assinatura:assinaturaBase64 }; let idOs = editandoOS; if(editandoOS){ await updateDoc(doc(db,"os",editandoOS),dados); } else { const ref = await addDoc(collection(db,"os"),dados); idOs = ref.id; } await lancarFinanceiroAutomatico(idOs, dados.cliente, dados.servico, dados.valor, dados.pag); editandoOS=null; fotoAntesBase64=""; fotoDepoisBase64=""; assinaturaBase64=""; $('prevAntes').style.display='none'; $('prevDepois').style.display='none'; $('prevAss').style.display='none'; limparAss(); alert('OS Salva com fotos e assinatura!'); }
+$('btnSalvarCliente').onclick=async()=>{ if(!$('cNome').value) return alert('Nome'); const dados={nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value}; if(editandoCliente){ await updateDoc(doc(db,"clientes",editandoCliente),dados); editandoCliente=null; $('btnSalvarCliente').textContent='SALVAR CLIENTE'; } else { await addDoc(collection(db,"clientes"),dados); } $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value=''; }
+$('btnSalvarOS').onclick=async()=>{ if(!$('osCliente').value) return alert('Cliente'); const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value, fotoAntes:fotoAntesBase64, fotoDepois:fotoDepoisBase64, assinatura:assinaturaBase64}; let idOs = editandoOS; if(editandoOS){ await updateDoc(doc(db,"os",editandoOS),dados); } else { const ref = await addDoc(collection(db,"os"),dados); idOs = ref.id; } await lancarFinanceiroAutomatico(idOs, dados.cliente, dados.servico, dados.valor, dados.pag); editandoOS=null; fotoAntesBase64=""; fotoDepoisBase64=""; assinaturaBase64=""; $('prevAntes').style.display='none'; $('prevDepois').style.display='none'; $('prevAss').style.display='none'; limparAss(); $('btnSalvarOS').textContent='💾 SALVAR OS'; alert('Salvo com fotos e assinatura!'); }
 $('btnSalvarAgenda').onclick=async()=>{ await addDoc(collection(db,"agenda"),{cliente:$('agCliente').value,data:$('agData').value,hora:$('agHora').value,serv:$('agServ').value}); alert('Agendado!'); }
-$('btnSalvarFin').onclick=async()=>{ await addDoc(collection(db,"financeiro"),{tipo:$('finTipo').value,desc:$('finDesc').value,valor:parseFloat($('finValor').value)||0, data:$('finData').value||new Date().toISOString().split('T')[0]}); }
-$('btnGerarRel').onclick=()=>{ const cli=$('relCliente').value; const ini=$('relDataIni').value; const fim=$('relDataFim').value; const tipo=$('relTipo').value; relatorioFiltrado=listaOS.filter(o=>{ if(cli&&o.cliente!==cli) return false; if(ini&&o.data<ini) return false; if(fim&&o.data>fim) return false; if(tipo!=='todos'&&o.pag!==tipo) return false; return true; }); let tp=0,tr=0; relatorioFiltrado.forEach(o=>{ if(o.pag==='pago') tp+=parseFloat(o.valor)||0; else tr+=parseFloat(o.valor)||0; }); $('relTotalPago').textContent='R$ '+tp.toFixed(2); $('relTotalReceber').textContent='R$ '+tr.toFixed(2); $('listaRelatorio').innerHTML=relatorioFiltrado.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} - ${o.pag} ${o.fotoAntes?'📸':''} ${o.assinatura?'✍️':''}</div>`).join('')||'Nenhum'; }
-$('btnRelPdf').onclick=()=>{ if(!relatorioFiltrado.length) return alert('Gere relatório'); const { jsPDF } = window.jspdf; const docPDF = new jsPDF(); docPDF.text("D2 SERVICOS - RELATORIO",10,15); docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026",150,10); docPDF.setFontSize(10); let y=25; relatorioFiltrado.forEach((o,i)=>{ if(y>270){ docPDF.addPage(); y=15; } docPDF.text(`${i+1}. ${o.data} - ${o.cliente} - R$ ${o.valor} - ${o.pag}`,10,y); y+=7; }); docPDF.save('relatorio.pdf'); }
+$('btnSalvarFin').onclick=async()=>{ await addDoc(collection(db,"financeiro"),{tipo:$('finTipo').value,desc:$('finDesc').value,valor:parseFloat($('finValor').value)||0, data:$('finData').value||new Date().toISOString().split('T')[0]}); alert('Lançado!'); }
 
-window.excluirOS=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,"os",id)); }
-window.editarOS=(id)=>{ const o=listaOS.find(x=>x.id===id); $('osCliente').value=o.cliente; $('osServico').value=o.servico; $('osValor').value=o.valor; $('osData').value=o.data; $('osHora').value=o.hora||''; $('osDesc').value=o.desc; $('osStatus').value=o.status; $('osPagamento').value=o.pag; fotoAntesBase64=o.fotoAntes||""; fotoDepoisBase64=o.fotoDepois||""; assinaturaBase64=o.assinatura||""; if(fotoAntesBase64){ $('prevAntes').src=fotoAntesBase64; $('prevAntes').style.display='block'; } if(fotoDepoisBase64){ $('prevDepois').src=fotoDepoisBase64; $('prevDepois').style.display='block'; } if(assinaturaBase64){ $('prevAss').src=assinaturaBase64; $('prevAss').style.display='block'; } editandoOS=id; mostrarAba('aba-os'); }
-window.pdfZapOS=async(id)=>{
+$('btnGerarRel').onclick=()=>{
+  const cli = $('relCliente').value; const ini = $('relDataIni').value; const fim = $('relDataFim').value; const tipo = $('relTipo').value;
+  relatorioFiltrado = listaOS.filter(o=>{ if(cli && o.cliente!==cli) return false; if(ini && o.data < ini) return false; if(fim && o.data > fim) return false; if(tipo!=='todos' && o.pag!==tipo) return false; return true; }).sort((a,b)=>a.data.localeCompare(b.data));
+  let totalPago=0, totalReceber=0; relatorioFiltrado.forEach(o=>{ if(o.pag==='pago') totalPago+=parseFloat(o.valor)||0; else totalReceber+=parseFloat(o.valor)||0; });
+  $('relTotalPago').textContent='R$ '+totalPago.toFixed(2); $('relTotalReceber').textContent='R$ '+totalReceber.toFixed(2);
+  $('listaRelatorio').innerHTML=relatorioFiltrado.map(o=>`<div class="card"><b>${o.data} - ${o.cliente}</b><br>${o.servico} - R$ ${o.valor}<br><span style="padding:3px 8px;border-radius:6px;font-size:11px;background:${o.pag==='pago'?'#16a34a':'#eab308'};color:white">${o.pag.toUpperCase()}</span> ${o.status} ${o.fotoAntes?'📸':''} ${o.assinatura?'✍️':''}</div>`).join('')||'<div class="card">Nenhum resultado</div>';
+}
+$('btnRelPdf').onclick=()=>{
+  if(!relatorioFiltrado.length) return alert('Gere o relatório primeiro');
+  const { jsPDF } = window.jspdf; const docPDF = new jsPDF(); docPDF.setFontSize(16); docPDF.text("D2 SERVICOS - RELATORIO",10,15); docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026",150,10); docPDF.setFontSize(10); docPDF.text(`Cliente: ${$('relCliente').value||'Todos'} | Periodo: ${$('relDataIni').value||'...'} a ${$('relDataFim').value||'...'} | Tipo: ${$('relTipo').value}`,10,22); docPDF.text(`Pago: ${$('relTotalPago').textContent} | A Receber: ${$('relTotalReceber').textContent}`,10,28); let y=35; relatorioFiltrado.forEach((o,i)=>{ if(y>270){ docPDF.addPage(); y=15; } docPDF.text(`${i+1}. ${o.data} - ${o.cliente} - ${o.servico} - R$ ${o.valor} - ${o.pag}`,10,y); y+=7; }); docPDF.save(`Relatorio_D2_${new Date().toISOString().split('T')[0]}.pdf`);
+}
+
+window.excluirCliente=async(id)=>{ if(confirm('Excluir cliente?')) await deleteDoc(doc(db,"clientes",id)); }
+window.editarCliente=(id)=>{ const c=clientes.find(x=>x.id===id); $('cNome').value=c.nome; $('cFone').value=c.fone; $('cEnd').value=c.end; $('cObs').value=c.obs; editandoCliente=id; $('btnSalvarCliente').textContent='✏️ ATUALIZAR'; mostrarAba('aba-clientes'); }
+window.excluirOS=async(id)=>{ if(confirm('Excluir OS e financeiro?')){ await deleteDoc(doc(db,"os",id)); const q = query(collection(db,"financeiro"), where("osId","==",id)); const snap = await getDocs(q); snap.forEach(async d=>{ await deleteDoc(doc(db,"financeiro",d.id)); }); } }
+window.editarOS=(id)=>{ const o=listaOS.find(x=>x.id===id); $('osCliente').value=o.cliente; $('osServico').value=o.servico; $('osValor').value=o.valor; $('osData').value=o.data; $('osHora').value=o.hora||''; $('osDesc').value=o.desc; $('osStatus').value=o.status; $('osPagamento').value=o.pag; fotoAntesBase64=o.fotoAntes||""; fotoDepoisBase64=o.fotoDepois||""; assinaturaBase64=o.assinatura||""; if(fotoAntesBase64){ $('prevAntes').src=fotoAntesBase64; $('prevAntes').style.display='block'; } if(fotoDepoisBase64){ $('prevDepois').src=fotoDepoisBase64; $('prevDepois').style.display='block'; } if(assinaturaBase64){ $('prevAss').src=assinaturaBase64; $('prevAss').style.display='block'; } editandoOS=id; $('btnSalvarOS').textContent='✏️ ATUALIZAR OS'; mostrarAba('aba-os'); }
+window.excluirFin=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,"financeiro",id)); }
+window.pdfZapOS=(id)=>{
   const o=listaOS.find(x=>x.id===id); const { jsPDF } = window.jspdf; const docPDF = new jsPDF();
-  docPDF.setFontSize(16); docPDF.text("D2 SERVICOS - ORDEM DE SERVICO",10,10);
-  docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026",10,6);
-  docPDF.setFontSize(11); docPDF.text(`Cliente: ${o.cliente}`,10,20); docPDF.text(`Servico: ${o.servico}`,10,27); docPDF.text(`Valor: R$ ${o.valor} | Data: ${o.data} ${o.hora||''}`,10,34); docPDF.text(`Status: ${o.status} | Pag: ${o.pag}`,10,41);
-  docPDF.text("Descricao:",10,48); const linhas = docPDF.splitTextToSize(o.desc||'',180); docPDF.text(linhas,10,54);
-  let yPos = 54 + linhas.length*6 + 5;
-  if(o.fotoAntes){ try{ docPDF.addImage(o.fotoAntes,'JPEG',10,yPos,80,45); docPDF.text("ANTES",10,yPos-2); }catch(e){} }
-  if(o.fotoDepois){ try{ docPDF.addImage(o.fotoDepois,'JPEG',100,yPos,80,45); docPDF.text("DEPOIS",100,yPos-2); }catch(e){} }
-  if(o.fotoAntes||o.fotoDepois) yPos+=55;
+  docPDF.setFontSize(18); docPDF.text("D2 SERVICOS - ORDEM DE SERVICO",10,15); docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026",10,8);
+  docPDF.setFontSize(12); docPDF.text(`Cliente: ${o.cliente}`,10,30); docPDF.text(`Servico: ${o.servico}`,10,40); docPDF.text(`Valor: R$ ${o.valor}`,10,50); docPDF.text(`Data: ${o.data} ${o.hora||''}`,10,60); docPDF.text(`Status: ${o.status} | Pag: ${o.pag}`,10,70); docPDF.text("Descricao:",10,80); const linhas=docPDF.splitTextToSize(o.desc||'',180); docPDF.text(linhas,10,90);
+  let yPos = 90 + linhas.length*6 + 5;
+  if(o.fotoAntes){ try{ docPDF.addImage(o.fotoAntes,'JPEG',10,yPos,80,50); docPDF.text("ANTES",10,yPos-2); }catch(e){} }
+  if(o.fotoDepois){ try{ docPDF.addImage(o.fotoDepois,'JPEG',110,yPos,80,50); docPDF.text("DEPOIS",110,yPos-2); }catch(e){} }
+  if(o.fotoAntes||o.fotoDepois) yPos+=60;
   if(o.assinatura){ try{ docPDF.text("Assinatura do Cliente:",10,yPos); docPDF.addImage(o.assinatura,'PNG',10,yPos+5,80,30); }catch(e){} yPos+=40; }
-  docPDF.text("___________________________________",10,yPos+10); docPDF.text("Assinatura",10,yPos+18);
-  docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026 - D2 SERVICOS",10,290);
+  docPDF.text("___________________________________",10,yPos+10); docPDF.text("Assinatura",10,yPos+20);
+  docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026 - D2 SERVICOS",10,285);
   const nomeArq = `OS_${o.cliente}_${o.data}.pdf`; docPDF.save(nomeArq);
   setTimeout(()=>{ const cli=clientes.find(c=>c.nome===o.cliente); const fone=cli?cli.fone.replace(/\D/g,''):''; const msg=`*D2 SERVICOS*%0A${o.cliente} - ${o.servico} - R$ ${o.valor}%0APDF com fotos e assinatura: ${nomeArq}`; window.open(fone?`https://wa.me/55${fone}?text=${msg}`:`https://wa.me/?text=${msg}`,'_blank'); },800);
 }
 
-window.excluirCliente=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,"clientes",id)); }
-window.editarCliente=(id)=>{ const c=clientes.find(x=>x.id===id); $('cNome').value=c.nome; $('cFone').value=c.fone; $('cEnd').value=c.end; $('cObs').value=c.obs; editandoCliente=id; mostrarAba('aba-clientes'); }
-window.excluirFin=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,"financeiro",id)); }
-
 function atualizar(){
-  let html='<option value="">Selecione</option>'; let htmlRel='<option value="">Todos</option>'; clientes.forEach(c=>{ html+=`<option value="${c.nome}">${c.nome}</option>`; htmlRel+=`<option value="${c.nome}">${c.nome}</option>`; });
+  let html='<option value="">Selecione Cliente</option>'; let htmlRel='<option value="">Todos os clientes</option>'; clientes.forEach(c=>{ html+=`<option value="${c.nome}">${c.nome}</option>`; htmlRel+=`<option value="${c.nome}">${c.nome}</option>`; });
   $('osCliente').innerHTML=html; $('agCliente').innerHTML=html; $('relCliente').innerHTML=htmlRel;
-  $('listaClientes').innerHTML=clientes.map(c=>`<div class="card"><b>${c.nome}</b><br><small>${c.fone}</small></div>`).join('')||'Nenhum';
-  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} | ${o.pag} ${o.fotoAntes?'📸':''} ${o.assinatura?'✍️':''}<br><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:8px"><button onclick="pdfZapOS('${o.id}')" style="padding:10px;border-radius:10px;border:none;background:#25D366;color:white">📄+Zap</button><button onclick="editarOS('${o.id}')" style="padding:10px;border-radius:10px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirOS('${o.id}')" style="padding:10px;border-radius:10px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join('')||'Nenhuma';
-  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente}</div>`).join('')||'Nenhum';
-  $('listaFin').innerHTML=listaFin.map(f=>`<div class="card"><b>${f.tipo}</b> - ${f.desc} R$ ${f.valor} - ${f.data}<br><button onclick="excluirFin('${f.id}')" style="margin-top:5px;padding:6px 10px;background:#dc2626;color:white;border:none;border-radius:6px">Excluir</button></div>`).join('')||'Nenhum';
+  $('listaClientes').innerHTML=clientes.map(c=>`<div class="card"><b>${c.nome}</b><br><small>📱 ${c.fone} - ${c.end||''}</small><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px"><button onclick="editarCliente('${c.id}')" style="padding:10px;border-radius:10px;border:none;background:#4f46e5;color:white">✏️ EDITAR</button><button onclick="excluirCliente('${c.id}')" style="padding:10px;border-radius:10px;border:none;background:#dc2626;color:white">🗑️ EXCLUIR</button></div></div>`).join('')||'<div class="card">Nenhum</div>';
+  $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} | ${o.status} | ${o.pag} ${o.fotoAntes?'📸':''} ${o.assinatura?'✍️':''}<br><small>${o.data} ${o.hora||''}</small><div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:5px;margin-top:8px"><button onclick="pdfZapOS('${o.id}')" style="padding:10px;border-radius:10px;border:none;background:#25D366;color:white">📄 PDF+Zap</button><button onclick="editarOS('${o.id}')" style="padding:10px;border-radius:10px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirOS('${o.id}')" style="padding:10px;border-radius:10px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join('')||'<div class="card">Nenhuma OS</div>';
+  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente} - ${a.serv}</div>`).join('')||'<div class="card">Nenhum agendamento</div>';
+  $('listaFin').innerHTML=listaFin.map(f=>`<div class="card"><b>${f.tipo.toUpperCase()}</b> - ${f.desc}<br>R$ ${f.valor} - Venc: ${f.data||''} ${f.osId?'<small style="color:#16a34a">[OS]</small>':''}<br><button onclick="excluirFin('${f.id}')" style="margin-top:5px;padding:6px 12px;border:none;background:#dc2626;color:white;border-radius:8px">Excluir</button></div>`).join('')||'<div class="card">Nenhum lançamento</div>';
   const hoje = new Date(); hoje.setHours(0,0,0,0);
-  const alertas = listaFin.filter(f=>{ if(f.tipo!=='saida'||!f.data) return false; const venc=new Date(f.data+'T00:00:00'); const diff=Math.ceil((venc-hoje)/(1000*60*60*24)); return diff>=0&&diff<=3; });
-  $('alertaContas').innerHTML=alertas.length?`<div class="card alerta-venc">⚠️ VENCENDO: ${alertas.map(a=>`${a.desc} R$ ${a.valor} em ${a.data}`).join('<br>')}</div>`:'';
-  $('statFatMensal').textContent='R$ '+listaOS.reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
+  const alertas = listaFin.filter(f=>{ if(f.tipo!=='saida' ||!f.data) return false; const venc = new Date(f.data+'T00:00:00'); venc.setHours(0,0,0,0); const diff = Math.ceil((venc - hoje) / (1000*60*60*24)); return diff>=0 && diff<=3; });
+  if(alertas.length){ $('alertaContas').innerHTML=`<div class="card alerta-venc">⚠️ <b>CONTAS A VENCER EM 3 DIAS</b><br>${alertas.map(a=>`❗ ${a.desc} - R$ ${a.valor} - Vence: ${a.data}`).join('<br>')}</div>`; } else { $('alertaContas').innerHTML=''; }
+  const mesAtual = new Date().getMonth(); const anoAtual = new Date().getFullYear();
+  const osMes = listaOS.filter(o=>{ if(!o.data) return false; const d=new Date(o.data); return d.getMonth()===mesAtual && d.getFullYear()===anoAtual; });
+  $('statFatMensal').textContent='R$ '+osMes.reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
+  $('statFatTotal').textContent='Total: R$ '+listaOS.reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
   $('statAReceber').textContent='R$ '+listaOS.filter(o=>o.pag==='pendente').reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
+  $('statRecebido').textContent='R$ '+listaFin.filter(f=>f.tipo==='entrada').reduce((s,f)=>s+(parseFloat(f.valor)||0),0).toFixed(2);
   $('statAPagar').textContent='R$ '+listaFin.filter(f=>f.tipo==='saida').reduce((s,f)=>s+(parseFloat(f.valor)||0),0).toFixed(2);
-  $('listaDash').innerHTML=listaOS.filter(o=>o.status!=='concluido').slice(0,5).map(o=>`<div>🚨 ${o.cliente} - ${o.servico} R$ ${o.valor} ${o.fotoAntes?'📸':''}</div>`).join('')||'Tudo ok';
+  $('statParcial').textContent='R$ '+listaFin.filter(f=>f.tipo==='parcial').reduce((s,f)=>s+(parseFloat(f.valor)||0),0).toFixed(2);
+  $('statAbertas').textContent=listaOS.filter(o=>o.status==='aberto').length;
+  $('statAndamento').textContent=listaOS.filter(o=>o.status==='andamento').length;
+  $('statConcluidas').textContent=listaOS.filter(o=>o.status==='concluido').length;
+  $('agendaHoje').innerHTML=listaAgenda.length?listaAgenda.map(a=>`<div>📅 ${a.data} ${a.hora} - ${a.cliente} - ${a.serv}</div>`).join(''):'Nenhum hoje';
+  $('listaDash').innerHTML=listaOS.filter(o=>o.status!=='concluido').slice(0,5).map(o=>`<div>🚨 ${o.cliente} - ${o.servico} (${o.status}) R$ ${o.valor} ${o.fotoAntes?'📸':''}</div>`).join('')||'Tudo em dia!';
 }
+$('buscaCliente').addEventListener('input', e=>{ let f=e.target.value.toLowerCase(); $('listaClientes').innerHTML=clientes.filter(c=>c.nome.toLowerCase().includes(f)||(c.fone||'').includes(f)).map(c=>`<div class="card"><b>${c.nome}</b><br><small>${c.fone}</small><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px"><button onclick="editarCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join(''); });
 </script>
 </body>
 </html>
