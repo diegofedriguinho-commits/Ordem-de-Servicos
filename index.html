@@ -1,43 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>D2 SERVIÇOS</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>D2 SERVIÇOS SAAS - BANCO ÚNICO</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--border:#334155;--primary:#4f46e5;--green:#16a34a;--yellow:#eab308;--red:#dc2626;--blue:#3b82f6}
 *{box-sizing:border-box} body{background:var(--bg);color:var(--text);font-family:'Segoe UI',sans-serif;margin:0;padding-bottom:95px}
-.btn{padding:14px;border-radius:12px;font-weight:bold;border:none;cursor:pointer;width:100%}
-.input{padding:14px;border:1px solid var(--border);border-radius:10px;width:100%;background:var(--card);color:var(--text);margin-bottom:8px}
+.btn{padding:14px;border-radius:12px;font-weight:bold;border:none;cursor:pointer;width:100%}.input{padding:14px;border:1px solid var(--border);border-radius:10px;width:100%;background:var(--card);color:var(--text);margin-bottom:8px}
 .card{background:var(--card);padding:14px;border-radius:12px;border:1px solid var(--border);margin-bottom:10px}
-.aba{display:none}.ativa{display:block}
-.menu{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(7,1fr);z-index:20}
-.menu button{background:transparent;border:none;color:var(--text);padding:8px 1px;font-size:8px;font-weight:bold;display:flex;flex-direction:column;align-items:center}
-.menu button.on{background:var(--primary);color:white}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.stat{font-size:20px;font-weight:bold}
-.label{color:#94a3b8;font-size:11px}
-.logo-top{display:flex;justify-content:space-between;align-items:center;padding:10px;font-weight:900}
-.logo-d2{background:var(--primary);padding:6px 12px;border-radius:10px}
+.aba{display:none}.ativa{display:block}.menu{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(7,1fr);z-index:20}
+.menu button{background:transparent;border:none;color:var(--text);padding:8px 1px;font-size:8px;font-weight:bold;display:flex;flex-direction:column;align-items:center}.menu button.on{background:var(--primary);color:white}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.stat{font-size:20px;font-weight:bold}.label{color:#94a3b8;font-size:11px}.logo-top{display:flex;justify-content:space-between;align-items:center;padding:10px;font-weight:900}.logo-d2{background:var(--primary);padding:6px 12px;border-radius:10px}
 .marca-dagua{position:fixed;bottom:70px;left:0;right:0;text-align:center;opacity:0.25;font-size:10px;pointer-events:none;z-index:5}
 </style>
 </head>
 <body>
-<div class="marca-dagua">Desenvolvido por D2 Systemas @2026</div>
+<div class="marca-dagua">D2 Systemas @2026 - SAAS BANCO UNICO - d2-scan / servicos-cd9e2</div>
 
-<div id="telaLogin" style="position:fixed;inset:0;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px">
-<div class="card" style="width:100%;max-width:380px"><h2 style="text-align:center"><span class="logo-d2">D2</span> SERVIÇOS</h2>
-<input id="loginUser" class="input" placeholder="Login"><input id="loginSenha" type="password" class="input" placeholder="Senha">
+<div id="telaLogin" style="position:fixed;inset:0;background:rgba(0,0,0,.97);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px">
+<div class="card" style="width:100%;max-width:380px"><h2 style="text-align:center"><span class="logo-d2">D2</span> SERVIÇOS SAAS</h2>
+<p style="text-align:center;font-size:11px;color:#94a3b8">BANCO ÚNICO - VÁRIOS CLIENTES</p>
+<button id="btnGoogle" class="btn" style="background:white;color:black;margin-bottom:8px">🔵 ENTRAR COM GOOGLE</button>
+<input id="loginUser" class="input" placeholder="Email"><input id="loginSenha" type="password" class="input" placeholder="Senha">
 <button id="btnEntrar" class="btn" style="background:var(--primary);color:white">ENTRAR</button>
-<p id="erroLogin" style="color:red;text-align:center"></p><div style="font-size:10px;text-align:center;color:#64748b">admin / 1234</div></div></div>
+<button id="btnCriar" class="btn" style="background:transparent;border:1px solid var(--border);color:white;margin-top:8px">CRIAR CONTA GRÁTIS 30 DIAS</button>
+<p id="erroLogin" style="color:#ff6b6b;text-align:center;font-size:12px;margin-top:8px"></p>
+<div style="font-size:10px;text-align:center;color:#64748b;margin-top:10px">Cada login = empresa separada no mesmo banco</div></div></div>
 
 <div style="padding:10px">
-<div class="logo-top"><div><span class="logo-d2">D2</span> SERVIÇOS</div><button onclick="fazerLogoff()" style="background:var(--red);color:white;border:none;padding:8px 14px;border-radius:8px;font-weight:bold">🚪 SAIR</button></div>
+<div class="logo-top"><div><span class="logo-d2">D2</span> SERVIÇOS <small id="empresaLogada" style="font-size:10px;color:#16a34a"></small></div><div style="display:flex;gap:6px"><button onclick="window.open('admin.html','_blank')" style="background:#334155;color:white;border:none;padding:8px 10px;border-radius:8px;font-size:10px">ADMIN</button><button onclick="fazerLogoff()" style="background:var(--red);color:white;border:none;padding:8px 14px;border-radius:8px;font-weight:bold">🚪 SAIR</button></div></div>
 
 <div id="aba-dash" class="aba ativa">
-<div id="alertaContas"></div>
+<div id="alertaAssinatura"></div><div id="alertaContas"></div>
 <div class="grid2">
 <div class="card"><div class="label">FATURAMENTO MENSAL</div><div id="statFatMensal" class="stat" style="color:var(--green)">R$ 0,00</div><div id="statFatTotal" style="font-size:11px;color:#94a3b8">Total: R$ 0,00</div></div>
 <div class="card"><div class="label">💰 A RECEBER</div><div id="statAReceber" class="stat" style="color:var(--yellow)">R$ 0,00</div><div class="label">A PAGAR</div><div id="statAPagar" class="stat" style="color:var(--red);font-size:16px">R$ 0,00</div></div>
@@ -56,82 +52,21 @@
 </div>
 
 <div id="aba-clientes" class="aba">
-<div class="card">
-<h3>👤 Cliente</h3>
-<input id="cNome" class="input" placeholder="Nome / Empresa">
-<input id="cFone" class="input" placeholder="WhatsApp com DDD">
-<input id="cEnd" class="input" placeholder="Endereço">
-<input id="cObs" class="input" placeholder="Obs">
-<button id="btnSalvarCliente" class="btn" style="background:var(--primary);color:white">SALVAR CLIENTE</button>
-</div>
-<input id="buscaCliente" class="input" placeholder="🔍 Buscar cliente...">
-<div id="listaClientes"></div>
+<div class="card"><h3>👤 Cliente</h3><input id="cNome" class="input" placeholder="Nome / Empresa"><input id="cFone" class="input" placeholder="WhatsApp com DDD"><input id="cEnd" class="input" placeholder="Endereço"><input id="cObs" class="input" placeholder="Obs"><button id="btnSalvarCliente" class="btn" style="background:var(--primary);color:white">SALVAR CLIENTE</button></div>
+<input id="buscaCliente" class="input" placeholder="🔍 Buscar cliente..."><div id="listaClientes"></div>
 </div>
 
 <div id="aba-os" class="aba">
-<div class="card">
-<h3>📝 Nova OS</h3>
-<select id="osCliente" class="input"><option>Carregando clientes...</option></select>
-<input id="osServico" class="input" placeholder="Serviço">
-<div class="grid2"><input id="osValor" type="number" class="input" placeholder="Valor R$"><input id="osData" type="date" class="input"></div>
-<input id="osHora" type="time" class="input">
-<textarea id="osDesc" class="input" placeholder="Descrição detalhada"></textarea>
-
-<div style="background:#0f172a;padding:10px;border-radius:10px;border:1px solid #334155;margin-bottom:8px">
-<b style="font-size:12px">✍️ ASSINATURA DO CLIENTE NA TELA (com o dedo)</b>
-<div style="background:white;border-radius:10px;margin-top:8px">
-<canvas id="canvasAss" width="320" height="160" style="width:100%;touch-action:none;display:block;border-radius:10px"></canvas>
-</div>
-<div class="grid2" style="margin-top:8px">
-<button type="button" id="btnLimparAss" class="btn" style="background:#334155;color:white;padding:10px">🧹 LIMPAR</button>
-<button type="button" id="btnOkAss" class="btn" style="background:var(--yellow);color:black;padding:10px">✅ OK ASSINATURA</button>
-</div>
-<div id="statusAss" style="font-size:11px;text-align:center;margin-top:5px;color:#16a34a"></div>
-<img id="prevAss" style="width:100%;background:white;border-radius:8px;display:none;margin-top:5px;padding:5px">
+<div class="card"><h3>📝 Nova OS</h3><select id="osCliente" class="input"><option>Carregando...</option></select><input id="osServico" class="input" placeholder="Serviço"><div class="grid2"><input id="osValor" type="number" class="input" placeholder="Valor R$"><input id="osData" type="date" class="input"></div><input id="osHora" type="time" class="input"><textarea id="osDesc" class="input" placeholder="Descrição detalhada"></textarea>
+<div style="background:#0f172a;padding:10px;border-radius:10px;border:1px solid #334155;margin-bottom:8px"><b style="font-size:12px">✍️ ASSINATURA DO CLIENTE</b><div style="background:white;border-radius:10px;margin-top:8px"><canvas id="canvasAss" width="320" height="160" style="width:100%;touch-action:none;display:block;border-radius:10px"></canvas></div><div class="grid2" style="margin-top:8px"><button type="button" id="btnLimparAss" class="btn" style="background:#334155;color:white;padding:10px">🧹 LIMPAR</button><button type="button" id="btnOkAss" class="btn" style="background:var(--yellow);color:black;padding:10px">✅ OK ASSINATURA</button></div><div id="statusAss" style="font-size:11px;text-align:center;margin-top:5px;color:#16a34a"></div><img id="prevAss" style="width:100%;background:white;border-radius:8px;display:none;margin-top:5px;padding:5px"></div>
+<select id="osStatus" class="input"><option value="aberto">🟡 ABERTO</option><option value="andamento">🔵 ANDAMENTO</option><option value="concluido">🟢 CONCLUÍDO</option></select><select id="osPagamento" class="input"><option value="pendente">💰 PENDENTE (A RECEBER)</option><option value="pago">✅ PAGO</option><option value="parcial">🧾 PARCIAL</option></select><button id="btnSalvarOS" class="btn" style="background:var(--green);color:white">💾 SALVAR OS</button></div><div id="listaOS"></div>
 </div>
 
-<select id="osStatus" class="input"><option value="aberto">🟡 ABERTO</option><option value="andamento">🔵 ANDAMENTO</option><option value="concluido">🟢 CONCLUÍDO</option></select>
-<select id="osPagamento" class="input"><option value="pendente">💰 PENDENTE (A RECEBER)</option><option value="pago">✅ PAGO</option><option value="parcial">🧾 PARCIAL</option></select>
-<button id="btnSalvarOS" class="btn" style="background:var(--green);color:white">💾 SALVAR OS</button>
-</div>
-<div id="listaOS"></div>
-</div>
+<div id="aba-agenda" class="aba"><div class="card"><h3>📅 Agendamento</h3><select id="agCliente" class="input"><option>Carregando...</option></select><input id="agData" type="date" class="input"><input id="agHora" type="time" class="input"><input id="agServ" class="input" placeholder="Serviço"><button id="btnSalvarAgenda" class="btn" style="background:var(--primary);color:white">AGENDAR</button></div><div id="listaAgenda"></div></div>
 
-<div id="aba-agenda" class="aba">
-<div class="card">
-<h3>📅 Agendamento</h3>
-<select id="agCliente" class="input"><option>Carregando...</option></select>
-<input id="agData" type="date" class="input"><input id="agHora" type="time" class="input">
-<input id="agServ" class="input" placeholder="Serviço">
-<button id="btnSalvarAgenda" class="btn" style="background:var(--primary);color:white">AGENDAR</button>
-</div>
-<div id="listaAgenda"></div>
-</div>
+<div id="aba-relatorio" class="aba"><div class="card"><h3>📄 Relatório</h3><select id="relCliente" class="input"><option value="">Todos os clientes</option></select><div class="grid2"><input id="relDataIni" type="date" class="input"><input id="relDataFim" type="date" class="input"></div><select id="relTipo" class="input"><option value="todos">Todos</option><option value="pago">Apenas PAGOS</option><option value="pendente">Apenas A RECEBER</option><option value="parcial">Apenas PARCIAL</option></select><button id="btnGerarRel" class="btn" style="background:var(--primary);color:white">🔍 GERAR RELATÓRIO</button><button id="btnRelPdf" class="btn" style="background:#25D366;color:white;margin-top:8px">📄 PDF DO RELATÓRIO</button></div><div class="grid2"><div class="card" style="text-align:center"><div class="label">TOTAL PAGO</div><div id="relTotalPago" class="stat" style="color:var(--green)">R$ 0,00</div></div><div class="card" style="text-align:center"><div class="label">TOTAL A RECEBER</div><div id="relTotalReceber" class="stat" style="color:var(--yellow)">R$ 0,00</div></div></div><div id="listaRelatorio"></div></div>
 
-<div id="aba-relatorio" class="aba">
-<div class="card">
-<h3>📄 Relatório por Cliente e Data</h3>
-<select id="relCliente" class="input"><option value="">Todos os clientes</option></select>
-<div class="grid2">
-<input id="relDataIni" type="date" class="input">
-<input id="relDataFim" type="date" class="input">
-</div>
-<select id="relTipo" class="input"><option value="todos">Todos (Pagos e A Receber)</option><option value="pago">Apenas PAGOS</option><option value="pendente">Apenas A RECEBER</option><option value="parcial">Apenas PARCIAL</option></select>
-<button id="btnGerarRel" class="btn" style="background:var(--primary);color:white">🔍 GERAR RELATÓRIO</button>
-<button id="btnRelPdf" class="btn" style="background:#25D366;color:white;margin-top:8px">📄 GERAR PDF DO RELATÓRIO</button>
-</div>
-<div class="grid2">
-<div class="card" style="text-align:center"><div class="label">TOTAL PAGO NO PERÍODO</div><div id="relTotalPago" class="stat" style="color:var(--green)">R$ 0,00</div></div>
-<div class="card" style="text-align:center"><div class="label">TOTAL A RECEBER</div><div id="relTotalReceber" class="stat" style="color:var(--yellow)">R$ 0,00</div></div>
-</div>
-<div id="listaRelatorio"></div>
-</div>
-
-<div id="aba-fin" class="aba">
-<div class="card"><h3>💰 Financeiro - Aviso 3 dias antes vencimento</h3>
-<select id="finTipo" class="input"><option value="entrada">💚 ENTRADA</option><option value="saida">❤️ SAÍDA (A PAGAR)</option><option value="parcial">🧾 PARCIAL</option></select>
-<input id="finDesc" class="input" placeholder="Descrição"><input id="finValor" type="number" class="input" placeholder="Valor"><input id="finData" type="date" class="input">
-<button id="btnSalvarFin" class="btn" style="background:var(--green);color:white">LANÇAR MANUAL</button></div><div id="listaFin"></div></div>
+<div id="aba-fin" class="aba"><div class="card"><h3>💰 Financeiro</h3><select id="finTipo" class="input"><option value="entrada">💚 ENTRADA</option><option value="saida">❤️ SAÍDA</option><option value="parcial">🧾 PARCIAL</option></select><input id="finDesc" class="input" placeholder="Descrição"><input id="finValor" type="number" class="input" placeholder="Valor"><input id="finData" type="date" class="input"><button id="btnSalvarFin" class="btn" style="background:var(--green);color:white">LANÇAR MANUAL</button></div><div id="listaFin"></div></div>
 </div>
 
 <nav class="menu">
@@ -146,19 +81,19 @@
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, where, getDocs, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
 const firebaseConfig = { apiKey: "AIzaSyAsVGIZfJxaCqFk4KJEU0I4_R5_-MBdVoo", authDomain: "servicos-cd9e2.firebaseapp.com", projectId: "servicos-cd9e2", storageBucket: "servicos-cd9e2.firebasestorage.app", messagingSenderId: "45086093375", appId: "1:45086093375:web:641ffeb22aca5fd0f2888a" };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 const $ = id => document.getElementById(id);
-let clientes=[], listaOS=[], listaAgenda=[], listaFin=[], editandoOS=null, editandoCliente=null, relatorioFiltrado=[];
-let assinaturaB64="";
 
-$('btnEntrar').onclick=()=>{ if($('loginUser').value==='admin'&&$('loginSenha').value==='1234') $('telaLogin').style.display='none'; else $('erroLogin').textContent='Erro'; }
-window.fazerLogoff=()=>{ if(confirm('Sair?')) $('telaLogin').style.display='flex'; }
-window.mostrarAba=(id)=>{ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); $(id).classList.add('ativa'); $('btn-'+id.replace('aba-','')).classList.add('on'); }
+let clientes=[], listaOS=[], listaAgenda=[], listaFin=[], editandoOS=null, editandoCliente=null, relatorioFiltrado=[], assinaturaB64="", uidEmpresa=null, unsubscribers=[];
 
-// ASSINATURA QUE FUNCIONA
+window.mostrarAba=(id)=>{ document.querySelectorAll('.aba').forEach(a=>a.classList.remove('ativa')); document.querySelectorAll('.menu button').forEach(b=>b.classList.remove('on')); $(id).classList.add('ativa'); const btn=$('btn-'+id.replace('aba-','')); if(btn) btn.classList.add('on'); }
+
 const canvas=document.getElementById('canvasAss'); const ctx=canvas.getContext('2d');
 ctx.fillStyle='white'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.strokeStyle='black'; ctx.lineWidth=2; ctx.lineCap='round';
 let pintando=false;
@@ -172,62 +107,89 @@ canvas.addEventListener('touchend', e=>{pintando=false; e.preventDefault();},{pa
 $('btnLimparAss').onclick=()=>{ctx.fillStyle='white'; ctx.fillRect(0,0,canvas.width,canvas.height); assinaturaB64=""; $('prevAss').style.display='none'; $('statusAss').textContent='';};
 $('btnOkAss').onclick=()=>{assinaturaB64=canvas.toDataURL('image/png'); $('prevAss').src=assinaturaB64; $('prevAss').style.display='block'; $('statusAss').textContent='✅ Assinatura salva!';};
 
-onSnapshot(collection(db,"clientes"), snap=>{ clientes=[]; snap.forEach(d=>clientes.push({id:d.id,...d.data()})); atualizar() });
-onSnapshot(collection(db,"os"), snap=>{ listaOS=[]; snap.forEach(d=>listaOS.push({id:d.id,...d.data()})); atualizar() });
-onSnapshot(collection(db,"agenda"), snap=>{ listaAgenda=[]; snap.forEach(d=>listaAgenda.push({id:d.id,...d.data()})); atualizar() });
-onSnapshot(collection(db,"financeiro"), snap=>{ listaFin=[]; snap.forEach(d=>listaFin.push({id:d.id,...d.data()})); atualizar() });
+async function iniciarBancoParaEmpresa(uid, email){
+  unsubscribers.forEach(u=>u()); unsubscribers=[];
+  uidEmpresa=uid;
+  $('empresaLogada').textContent=email+' | UID:'+uid.slice(0,6);
+  const empresaRef=doc(db,"empresas",uid);
+  const empresaSnap=await getDoc(empresaRef);
+  if(!empresaSnap.exists()){
+    await setDoc(empresaRef,{email:email,criado:new Date().toISOString(),assinatura:'ativa',validade:new Date(Date.now()+30*24*3600*1000).toISOString(),plano:'gratis'});
+  }else{
+    const dados=empresaSnap.data();
+    if(new Date(dados.validade)<new Date()){
+      $('alertaAssinatura').innerHTML=`<div class="card" style="background:#dc2626"><b>⚠️ ASSINATURA VENCIDA!</b><br>Pix: SEU PIX AQUI - R$47/mês<br>Whats: (44) 99999-9999</div>`;
+    }else{
+      $('alertaAssinatura').innerHTML=`<div class="card" style="background:#16a34a;color:white"><b>✅ ATIVA até ${new Date(dados.validade).toLocaleDateString()} | ${dados.plano}</b></div>`;
+    }
+  }
+  const baseCol = (nome)=>collection(db,`empresas/${uid}/${nome}`);
+  unsubscribers.push(onSnapshot(baseCol("clientes"), snap=>{ clientes=[]; snap.forEach(d=>clientes.push({id:d.id,...d.data()})); atualizar() }));
+  unsubscribers.push(onSnapshot(baseCol("os"), snap=>{ listaOS=[]; snap.forEach(d=>listaOS.push({id:d.id,...d.data()})); atualizar() }));
+  unsubscribers.push(onSnapshot(baseCol("agenda"), snap=>{ listaAgenda=[]; snap.forEach(d=>listaAgenda.push({id:d.id,...d.data()})); atualizar() }));
+  unsubscribers.push(onSnapshot(baseCol("financeiro"), snap=>{ listaFin=[]; snap.forEach(d=>listaFin.push({id:d.id,...d.data()})); atualizar() }));
+}
+
+$('btnGoogle').onclick=async()=>{ try{ await signInWithPopup(auth,new GoogleAuthProvider()); }catch(e){ $('erroLogin').textContent=e.message } }
+$('btnEntrar').onclick=async()=>{ try{ await signInWithEmailAndPassword(auth,$('loginUser').value,$('loginSenha').value); }catch(e){ $('erroLogin').textContent='Erro: '+e.message } }
+$('btnCriar').onclick=async()=>{ try{ await createUserWithEmailAndPassword(auth,$('loginUser').value,$('loginSenha').value); }catch(e){ $('erroLogin').textContent='Erro: '+e.message } }
+window.fazerLogoff=async()=>{ if(confirm('Sair?')){ await signOut(auth); } }
+onAuthStateChanged(auth, async user=>{
+  if(user){ $('telaLogin').style.display='none'; await iniciarBancoParaEmpresa(user.uid,user.email); }
+  else{ $('telaLogin').style.display='flex'; uidEmpresa=null; }
+});
 
 async function lancarFinanceiroAutomatico(osId, cliente, servico, valor, tipoPag){
-  const q = query(collection(db,"financeiro"), where("osId","==",osId)); const ja = await getDocs(q); ja.forEach(async d=>{ await deleteDoc(doc(db,"financeiro",d.id)); });
-  if(tipoPag==='pago'){ await addDoc(collection(db,"financeiro"),{tipo:"entrada", desc:`OS PAGA - ${cliente} - ${servico}`, valor:valor, data:new Date().toISOString().split('T')[0], osId:osId, cliente:cliente}); }
-  else if(tipoPag==='parcial'){ await addDoc(collection(db,"financeiro"),{tipo:"parcial", desc:`OS PARCIAL - ${cliente} - ${servico}`, valor:valor, data:new Date().toISOString().split('T')[0], osId:osId, cliente:cliente}); }
+  if(!uidEmpresa) return;
+  const baseCol=collection(db,`empresas/${uidEmpresa}/financeiro`);
+  const q = query(baseCol, where("osId","==",osId)); const ja = await getDocs(q); ja.forEach(async d=>{ await deleteDoc(doc(db,`empresas/${uidEmpresa}/financeiro`,d.id)); });
+  if(tipoPag==='pago'){ await addDoc(baseCol,{tipo:"entrada", desc:`OS PAGA - ${cliente} - ${servico}`, valor:valor, data:new Date().toISOString().split('T')[0], osId:osId, cliente:cliente}); }
+  else if(tipoPag==='parcial'){ await addDoc(baseCol,{tipo:"parcial", desc:`OS PARCIAL - ${cliente} - ${servico}`, valor:valor, data:new Date().toISOString().split('T')[0], osId:osId, cliente:cliente}); }
 }
-$('btnSalvarCliente').onclick=async()=>{ if(!$('cNome').value) return alert('Nome'); const dados={nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value}; if(editandoCliente){ await updateDoc(doc(db,"clientes",editandoCliente),dados); editandoCliente=null; $('btnSalvarCliente').textContent='SALVAR CLIENTE'; } else { await addDoc(collection(db,"clientes"),dados); } $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value=''; }
-$('btnSalvarOS').onclick=async()=>{ if(!$('osCliente').value) return alert('Cliente'); const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value, assinatura:assinaturaB64}; let idOs = editandoOS; if(editandoOS){ await updateDoc(doc(db,"os",editandoOS),dados); } else { const ref = await addDoc(collection(db,"os"),dados); idOs = ref.id; } await lancarFinanceiroAutomatico(idOs, dados.cliente, dados.servico, dados.valor, dados.pag); editandoOS=null; assinaturaB64=""; $('prevAss').style.display='none'; ctx.fillStyle='white'; ctx.fillRect(0,0,canvas.width,canvas.height); $('btnSalvarOS').textContent='💾 SALVAR OS'; alert('OS Salva!'); }
-$('btnSalvarAgenda').onclick=async()=>{ await addDoc(collection(db,"agenda"),{cliente:$('agCliente').value,data:$('agData').value,hora:$('agHora').value,serv:$('agServ').value}); alert('Agendado!'); }
-$('btnSalvarFin').onclick=async()=>{ await addDoc(collection(db,"financeiro"),{tipo:$('finTipo').value,desc:$('finDesc').value,valor:parseFloat($('finValor').value)||0, data:$('finData').value||new Date().toISOString().split('T')[0]}); alert('Lançado!'); }
+$('btnSalvarCliente').onclick=async()=>{ if(!uidEmpresa) return; if(!$('cNome').value) return alert('Nome'); const dados={nome:$('cNome').value,fone:$('cFone').value,end:$('cEnd').value,obs:$('cObs').value}; const base=`empresas/${uidEmpresa}/clientes`; if(editandoCliente){ await updateDoc(doc(db,base,editandoCliente),dados); editandoCliente=null; $('btnSalvarCliente').textContent='SALVAR CLIENTE'; } else { await addDoc(collection(db,base),dados); } $('cNome').value='';$('cFone').value='';$('cEnd').value='';$('cObs').value=''; }
+$('btnSalvarOS').onclick=async()=>{ if(!uidEmpresa) return; if(!$('osCliente').value) return alert('Cliente'); const dados={cliente:$('osCliente').value,servico:$('osServico').value,valor:parseFloat($('osValor').value)||0,data:$('osData').value,hora:$('osHora').value,desc:$('osDesc').value,status:$('osStatus').value,pag:$('osPagamento').value, assinatura:assinaturaB64}; const base=`empresas/${uidEmpresa}/os`; let idOs=editandoOS; if(editandoOS){ await updateDoc(doc(db,base,editandoOS),dados); } else { const ref=await addDoc(collection(db,base),dados); idOs=ref.id; } await lancarFinanceiroAutomatico(idOs,dados.cliente,dados.servico,dados.valor,dados.pag); editandoOS=null; assinaturaB64=""; $('prevAss').style.display='none'; ctx.fillStyle='white'; ctx.fillRect(0,0,canvas.width,canvas.height); $('btnSalvarOS').textContent='💾 SALVAR OS'; alert('OS Salva no banco único!'); }
+$('btnSalvarAgenda').onclick=async()=>{ if(!uidEmpresa) return; await addDoc(collection(db,`empresas/${uidEmpresa}/agenda`),{cliente:$('agCliente').value,data:$('agData').value,hora:$('agHora').value,serv:$('agServ').value}); alert('Agendado!'); }
+$('btnSalvarFin').onclick=async()=>{ if(!uidEmpresa) return; await addDoc(collection(db,`empresas/${uidEmpresa}/financeiro`),{tipo:$('finTipo').value,desc:$('finDesc').value,valor:parseFloat($('finValor').value)||0, data:$('finData').value||new Date().toISOString().split('T')[0]}); alert('Lançado!'); }
 
 $('btnGerarRel').onclick=()=>{
-  const cli = $('relCliente').value; const ini = $('relDataIni').value; const fim = $('relDataFim').value; const tipo = $('relTipo').value;
-  relatorioFiltrado = listaOS.filter(o=>{ if(cli && o.cliente!==cli) return false; if(ini && o.data < ini) return false; if(fim && o.data > fim) return false; if(tipo!=='todos' && o.pag!==tipo) return false; return true; }).sort((a,b)=>a.data.localeCompare(b.data));
-  let totalPago=0, totalReceber=0; relatorioFiltrado.forEach(o=>{ if(o.pag==='pago') totalPago+=parseFloat(o.valor)||0; else totalReceber+=parseFloat(o.valor)||0; });
+  const cli=$('relCliente').value; const ini=$('relDataIni').value; const fim=$('relDataFim').value; const tipo=$('relTipo').value;
+  relatorioFiltrado=listaOS.filter(o=>{ if(cli&&o.cliente!==cli) return false; if(ini&&o.data<ini) return false; if(fim&&o.data>fim) return false; if(tipo!=='todos'&&o.pag!==tipo) return false; return true; }).sort((a,b)=>a.data.localeCompare(b.data));
+  let totalPago=0,totalReceber=0; relatorioFiltrado.forEach(o=>{ if(o.pag==='pago') totalPago+=parseFloat(o.valor)||0; else totalReceber+=parseFloat(o.valor)||0; });
   $('relTotalPago').textContent='R$ '+totalPago.toFixed(2); $('relTotalReceber').textContent='R$ '+totalReceber.toFixed(2);
   $('listaRelatorio').innerHTML=relatorioFiltrado.map(o=>`<div class="card"><b>${o.data} - ${o.cliente}</b><br>${o.servico} - R$ ${o.valor}<br><span style="padding:3px 8px;border-radius:6px;font-size:11px;background:${o.pag==='pago'?'#16a34a':'#eab308'};color:white">${o.pag.toUpperCase()}</span> ${o.status} ${o.assinatura?'✍️':''}</div>`).join('')||'<div class="card">Nenhum resultado</div>';
 }
 $('btnRelPdf').onclick=()=>{
   if(!relatorioFiltrado.length) return alert('Gere o relatório primeiro');
-  const { jsPDF } = window.jspdf; const docPDF = new jsPDF(); docPDF.setFontSize(16); docPDF.text("D2 SERVICOS - RELATORIO",10,15); docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026",150,10); docPDF.setFontSize(10); docPDF.text(`Cliente: ${$('relCliente').value||'Todos'} | Periodo: ${$('relDataIni').value||'...'} a ${$('relDataFim').value||'...'}`,10,22); docPDF.text(`Pago: ${$('relTotalPago').textContent} | A Receber: ${$('relTotalReceber').textContent}`,10,28); let y=35; relatorioFiltrado.forEach((o,i)=>{ if(y>270){ docPDF.addPage(); y=15; } docPDF.text(`${i+1}. ${o.data} - ${o.cliente} - ${o.servico} - R$ ${o.valor} - ${o.pag}`,10,y); y+=7; }); docPDF.save(`Relatorio_D2_${new Date().toISOString().split('T')[0]}.pdf`);
+  const { jsPDF } = window.jspdf; const docPDF = new jsPDF(); docPDF.setFontSize(16); docPDF.text("D2 SERVICOS SAAS - RELATORIO",10,15); docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026 - Banco Unico",150,10); docPDF.setFontSize(10); docPDF.text(`Cliente: ${$('relCliente').value||'Todos'} | Periodo: ${$('relDataIni').value||'...'} a ${$('relDataFim').value||'...'}`,10,22); docPDF.text(`Pago: ${$('relTotalPago').textContent} | A Receber: ${$('relTotalReceber').textContent}`,10,28); let y=35; relatorioFiltrado.forEach((o,i)=>{ if(y>270){ docPDF.addPage(); y=15; } docPDF.text(`${i+1}. ${o.data} - ${o.cliente} - ${o.servico} - R$ ${o.valor} - ${o.pag}`,10,y); y+=7; }); docPDF.save(`Relatorio_D2_${new Date().toISOString().split('T')[0]}.pdf`);
 }
 
-window.excluirCliente=async(id)=>{ if(confirm('Excluir cliente?')) await deleteDoc(doc(db,"clientes",id)); }
+window.excluirCliente=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,`empresas/${uidEmpresa}/clientes`,id)); }
 window.editarCliente=(id)=>{ const c=clientes.find(x=>x.id===id); $('cNome').value=c.nome; $('cFone').value=c.fone; $('cEnd').value=c.end; $('cObs').value=c.obs; editandoCliente=id; $('btnSalvarCliente').textContent='✏️ ATUALIZAR'; mostrarAba('aba-clientes'); }
-window.excluirOS=async(id)=>{ if(confirm('Excluir OS e financeiro?')){ await deleteDoc(doc(db,"os",id)); const q = query(collection(db,"financeiro"), where("osId","==",id)); const snap = await getDocs(q); snap.forEach(async d=>{ await deleteDoc(doc(db,"financeiro",d.id)); }); } }
+window.excluirOS=async(id)=>{ if(confirm('Excluir OS e financeiro?')){ await deleteDoc(doc(db,`empresas/${uidEmpresa}/os`,id)); const q=query(collection(db,`empresas/${uidEmpresa}/financeiro`),where("osId","==",id)); const snap=await getDocs(q); snap.forEach(async d=>{ await deleteDoc(doc(db,`empresas/${uidEmpresa}/financeiro`,d.id)); }); } }
 window.editarOS=(id)=>{ const o=listaOS.find(x=>x.id===id); $('osCliente').value=o.cliente; $('osServico').value=o.servico; $('osValor').value=o.valor; $('osData').value=o.data; $('osHora').value=o.hora||''; $('osDesc').value=o.desc; $('osStatus').value=o.status; $('osPagamento').value=o.pag; assinaturaB64=o.assinatura||""; if(assinaturaB64){ $('prevAss').src=assinaturaB64; $('prevAss').style.display='block'; } editandoOS=id; $('btnSalvarOS').textContent='✏️ ATUALIZAR OS'; mostrarAba('aba-os'); }
-window.excluirFin=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,"financeiro",id)); }
+window.excluirFin=async(id)=>{ if(confirm('Excluir?')) await deleteDoc(doc(db,`empresas/${uidEmpresa}/financeiro`,id)); }
 window.pdfZapOS=(id)=>{
   const o=listaOS.find(x=>x.id===id); const { jsPDF } = window.jspdf; const docPDF = new jsPDF();
   docPDF.setFontSize(18); docPDF.text("D2 SERVICOS - ORDEM DE SERVICO",10,15); docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026",10,8);
   docPDF.setFontSize(12); docPDF.text(`Cliente: ${o.cliente}`,10,30); docPDF.text(`Servico: ${o.servico}`,10,40); docPDF.text(`Valor: R$ ${o.valor}`,10,50); docPDF.text(`Data: ${o.data} ${o.hora||''}`,10,60); docPDF.text(`Status: ${o.status} | Pag: ${o.pag}`,10,70); docPDF.text("Descricao:",10,80); docPDF.text(docPDF.splitTextToSize(o.desc||'',180),10,90);
-  let y=130;
-  if(o.assinatura){ try{ docPDF.text("Assinatura do Cliente:",10,y); docPDF.addImage(o.assinatura,'PNG',10,y+5,80,30); y+=40; }catch(e){} }
-  docPDF.text("___________________________________",10,y+10); docPDF.text("Assinatura",10,y+18);
-  docPDF.setFontSize(8); docPDF.text("Desenvolvido por D2 Systemas @2026 - D2 SERVICOS",10,285);
-  const nomeArq = `OS_${o.cliente}_${o.data}.pdf`; docPDF.save(nomeArq);
+  let y=130; if(o.assinatura){ try{ docPDF.text("Assinatura:",10,y); docPDF.addImage(o.assinatura,'PNG',10,y+5,80,30); y+=40; }catch(e){} }
+  docPDF.text("___________________________________",10,y+10); docPDF.text("Assinatura",10,y+18); docPDF.setFontSize(8); docPDF.text("D2 Systemas @2026 - SAAS Banco Unico",10,285);
+  docPDF.save(`OS_${o.cliente}_${o.data}.pdf`);
   setTimeout(()=>{ const cli=clientes.find(c=>c.nome===o.cliente); const fone=cli?cli.fone.replace(/\D/g,''):''; const msg=`*D2 SERVICOS*%0A${o.cliente} - ${o.servico} - R$ ${o.valor}`; window.open(fone?`https://wa.me/55${fone}?text=${msg}`:`https://wa.me/?text=${msg}`,'_blank'); },800);
 }
 
 function atualizar(){
-  let html='<option value="">Selecione Cliente</option>'; let htmlRel='<option value="">Todos os clientes</option>'; clientes.forEach(c=>{ html+=`<option value="${c.nome}">${c.nome}</option>`; htmlRel+=`<option value="${c.nome}">${c.nome}</option>`; });
+  let html='<option value="">Selecione Cliente</option>'; let htmlRel='<option value="">Todos</option>'; clientes.forEach(c=>{ html+=`<option value="${c.nome}">${c.nome}</option>`; htmlRel+=`<option value="${c.nome}">${c.nome}</option>`; });
   $('osCliente').innerHTML=html; $('agCliente').innerHTML=html; $('relCliente').innerHTML=htmlRel;
   $('listaClientes').innerHTML=clientes.map(c=>`<div class="card"><b>${c.nome}</b><br><small>📱 ${c.fone}</small><div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:8px"><button onclick="editarCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirCliente('${c.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join('')||'<div class="card">Nenhum</div>';
   $('listaOS').innerHTML=listaOS.map(o=>`<div class="card"><b>${o.cliente}</b> - ${o.servico}<br>R$ ${o.valor} | ${o.status} | ${o.pag} ${o.assinatura?'✍️':''}<br><small>${o.data}</small><div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:5px;margin-top:8px"><button onclick="pdfZapOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#25D366;color:white">📄 PDF+Zap</button><button onclick="editarOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#4f46e5;color:white">✏️</button><button onclick="excluirOS('${o.id}')" style="padding:8px;border-radius:8px;border:none;background:#dc2626;color:white">🗑️</button></div></div>`).join('')||'<div class="card">Nenhuma OS</div>';
-  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente}</div>`).join('')||'<div class="card">Nenhum</div>';
+  $('listaAgenda').innerHTML=listaAgenda.map(a=>`<div class="card">${a.data} ${a.hora} - ${a.cliente} <button onclick="excluirAgenda('${a.id}')" style="float:right;background:#dc2626;color:white;border:none;padding:4px 8px;border-radius:6px">X</button></div>`).join('')||'<div class="card">Nenhum</div>';
   $('listaFin').innerHTML=listaFin.map(f=>`<div class="card"><b>${f.tipo.toUpperCase()}</b> - ${f.desc}<br>R$ ${f.valor} - ${f.data||''} ${f.osId?'<small style="color:#16a34a">[OS]</small>':''}<br><button onclick="excluirFin('${f.id}')" style="margin-top:5px;padding:5px 10px;border:none;background:#dc2626;color:white;border-radius:6px">Excluir</button></div>`).join('')||'<div class="card">Nenhum</div>';
-  const hoje = new Date(); hoje.setHours(0,0,0,0);
-  const alertas = listaFin.filter(f=>{ if(f.tipo!=='saida'||!f.data) return false; const venc=new Date(f.data+'T00:00:00'); const diff=Math.ceil((venc-hoje)/(1000*60*60*24)); return diff>=0&&diff<=3; });
+  const hoje=new Date(); hoje.setHours(0,0,0,0);
+  const alertas=listaFin.filter(f=>{ if(f.tipo!=='saida'||!f.data) return false; const venc=new Date(f.data+'T00:00:00'); const diff=Math.ceil((venc-hoje)/(1000*60*60*24)); return diff>=0&&diff<=3; });
   $('alertaContas').innerHTML=alertas.length?`<div class="card" style="background:#dc2626">⚠️ <b>CONTAS A VENCER EM 3 DIAS</b><br>${alertas.map(a=>`❗ ${a.desc} - R$ ${a.valor} - ${a.data}`).join('<br>')}</div>`:'';
-  const mesAtual = new Date().getMonth(); const anoAtual = new Date().getFullYear();
-  const osMes = listaOS.filter(o=>{ if(!o.data) return false; const d=new Date(o.data); return d.getMonth()===mesAtual && d.getFullYear()===anoAtual; });
+  const mesAtual=new Date().getMonth(); const anoAtual=new Date().getFullYear();
+  const osMes=listaOS.filter(o=>{ if(!o.data) return false; const d=new Date(o.data); return d.getMonth()===mesAtual && d.getFullYear()===anoAtual; });
   $('statFatMensal').textContent='R$ '+osMes.reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
   $('statFatTotal').textContent='Total: R$ '+listaOS.reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
   $('statAReceber').textContent='R$ '+listaOS.filter(o=>o.pag==='pendente').reduce((s,o)=>s+(parseFloat(o.valor)||0),0).toFixed(2);
@@ -240,7 +202,8 @@ function atualizar(){
   $('agendaHoje').innerHTML=listaAgenda.length?listaAgenda.map(a=>`<div>📅 ${a.data} ${a.hora} - ${a.cliente}</div>`).join(''):'Nenhum';
   $('listaDash').innerHTML=listaOS.filter(o=>o.status!=='concluido').slice(0,5).map(o=>`<div>🚨 ${o.cliente} - ${o.servico} (${o.status}) R$ ${o.valor}</div>`).join('')||'Tudo em dia!';
 }
-$('buscaCliente').addEventListener('input', e=>{ let f=e.target.value.toLowerCase(); $('listaClientes').innerHTML=clientes.filter(c=>c.nome.toLowerCase().includes(f)).map(c=>`<div class="card"><b>${c.nome}</b></div>`).join(''); });
+window.excluirAgenda=async(id)=>{ await deleteDoc(doc(db,`empresas/${uidEmpresa}/agenda`,id)); }
+$('buscaCliente').addEventListener('input', e=>{ let f=e.target.value.toLowerCase(); $('listaClientes').innerHTML=clientes.filter(c=>c.nome.toLowerCase().includes(f)).map(c=>`<div class="card"><b>${c.nome}</b><br>${c.fone}</div>`).join(''); });
 </script>
 </body>
 </html>
